@@ -56,6 +56,8 @@ export const ToolSchema = ToolSeedSchema.extend({
   observed: z.number().int().nonnegative(),
   lastSync: z.string().datetime(),
   causes: z.array(VisibilityCauseFlagSchema),
+  /** OEM-native loss-reason codes (resolved against the workspace's reason catalog). */
+  activeLossReasons: z.array(z.string()).default([]),
   status: RagStatusSchema,
   score: z.number(),
 });
@@ -92,7 +94,7 @@ export const WorkspaceConfigSchema = z.object({
   name: z.string(),
   shortName: z.string(),
   logoSlot: z.string().optional(),
-  watermark: z.string().default("DEMO DATA — NOT PRODUCTION"),
+  watermark: z.string().optional(),
   denominators: z.record(z.string(), z.number().int().positive()).default({}),
   freshnessSloHours: FreshnessSloSchema.default({
     endpoint: 24,

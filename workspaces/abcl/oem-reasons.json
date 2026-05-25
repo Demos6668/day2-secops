@@ -1,0 +1,462 @@
+{
+  "reasonsByOem": {
+    "CyberArk": [
+      {
+        "code": "factor_not_enrolled",
+        "label": "Factor not enrolled",
+        "description": "Identity exists in the directory but has no MFA factor registered. Either skipped enrollment or never completed FIDO2 / push setup.",
+        "consolePath": "Identity → Authentication → Users → filter \"MFA factors = 0\"",
+        "severity": "High"
+      },
+      {
+        "code": "account_inactive",
+        "label": "Account inactive (>90d)",
+        "description": "User account hasn't authenticated through CyberArk Identity for 90+ days. Counted as unprotected because session keys have expired.",
+        "consolePath": "Reports → User Activity → Inactive Users",
+        "severity": "Medium"
+      },
+      {
+        "code": "device_unenrolled",
+        "label": "Trusted device unenrolled",
+        "description": "User's previously trusted endpoint dropped from the device-trust registry, forcing repeat step-up but currently allowed via fallback.",
+        "consolePath": "Endpoints → Device Trust → Status \"Unenrolled\"",
+        "severity": "Medium"
+      },
+      {
+        "code": "push_blocked",
+        "label": "Push notifications blocked",
+        "description": "Push channel reports delivery failure (OS notification disabled / DND / network egress block).",
+        "consolePath": "Notifications → Push Delivery → Failures",
+        "severity": "Medium"
+      },
+      {
+        "code": "vault_disconnected",
+        "label": "PAM vault disconnected",
+        "description": "PAM vault component has not heart-beated. Privileged account checkouts will fail until the vault rejoins.",
+        "consolePath": "PVWA → System Health → Components",
+        "severity": "Critical"
+      },
+      {
+        "code": "psm_session_failed",
+        "label": "PSM session failed",
+        "description": "Privileged Session Manager could not relay an interactive session. Recording gap present.",
+        "consolePath": "PVWA → Privileged Sessions → Failed",
+        "severity": "High"
+      },
+      {
+        "code": "password_rotation_failed",
+        "label": "Password rotation failed",
+        "description": "Scheduled CPM rotation hit an error (target down, account locked, complexity rejected).",
+        "consolePath": "PVWA → Reports → CPM Failures",
+        "severity": "High"
+      }
+    ],
+    "SentinelOne": [
+      {
+        "code": "agent_offline_24h",
+        "label": "Agent offline >24 h",
+        "description": "Endpoint hasn't checked in for more than 24 hours. Threat detection is paused on the device.",
+        "consolePath": "Sentinels → Filter: Last Active > 24h",
+        "severity": "High"
+      },
+      {
+        "code": "agent_decommissioned",
+        "label": "Decommissioned but still in CMDB",
+        "description": "Console marked the agent decommissioned but the asset still appears in the asset inventory feed.",
+        "consolePath": "Sentinels → Action History → Decommission",
+        "severity": "Medium"
+      },
+      {
+        "code": "rfm_mode",
+        "label": "Reduced Functionality Mode",
+        "description": "Kernel module mismatch (recent OS update) — agent is running but with detection disabled.",
+        "consolePath": "Sentinels → Health → Operational Mode",
+        "severity": "Critical"
+      },
+      {
+        "code": "vss_blocked",
+        "label": "VSS protection blocked",
+        "description": "Volume Shadow Copy hardening could not apply — installer blocked or insufficient privilege.",
+        "consolePath": "Sentinels → Anti-Tamper → VSS Status",
+        "severity": "Medium"
+      },
+      {
+        "code": "license_lapsed",
+        "label": "License lapsed",
+        "description": "Per-endpoint license expired. Agent continues in observe-only mode for 14 days then unregisters.",
+        "consolePath": "Settings → Licenses → Endpoint",
+        "severity": "Critical"
+      }
+    ],
+    "TrendMicro": [
+      {
+        "code": "comm_failure",
+        "label": "Agent comm failure",
+        "description": "Deep Security agent cannot reach the manager (proxy, firewall, certificate).",
+        "consolePath": "Computers → Status → Communication",
+        "severity": "High"
+      },
+      {
+        "code": "policy_out_of_date",
+        "label": "Policy out of date",
+        "description": "Assigned policy version on endpoint is older than current; new HIPS rules not yet applied.",
+        "consolePath": "Computers → Policy Version mismatch filter",
+        "severity": "Medium"
+      },
+      {
+        "code": "ips_rule_lag",
+        "label": "IPS rule lag",
+        "description": "Latest threat-feed IPS rules haven't been delivered to the agent in 48 h.",
+        "consolePath": "Administration → Updates → Rule Distribution",
+        "severity": "Medium"
+      },
+      {
+        "code": "self_protection_off",
+        "label": "Agent self-protection off",
+        "description": "Agent self-protection module disabled — tampering possible.",
+        "consolePath": "Policies → Settings → Self-Protection",
+        "severity": "High"
+      }
+    ],
+    "Trellix": [
+      {
+        "code": "recovery_key_missing",
+        "label": "Recovery key not escrowed",
+        "description": "Disk is encrypted but the recovery key never reached the management server. Unrecoverable on failure.",
+        "consolePath": "ePO → Drive Encryption → Recovery Keys → Missing",
+        "severity": "Critical"
+      },
+      {
+        "code": "decryption_pending",
+        "label": "Decryption pending",
+        "description": "Endpoint scheduled for decryption (offboarding) but the operation hasn't completed — data at rest still unprotected.",
+        "consolePath": "ePO → Drive Encryption → Operations",
+        "severity": "Medium"
+      },
+      {
+        "code": "agent_unhealthy",
+        "label": "Encryption agent unhealthy",
+        "description": "Drive Encryption client reporting error state. Periodic re-encryption sweep paused.",
+        "consolePath": "ePO → System Tree → Health",
+        "severity": "High"
+      },
+      {
+        "code": "encryption_stalled",
+        "label": "Initial encryption stalled",
+        "description": "Endpoint queued for first-time encryption but progress is < 5% over 7 days.",
+        "consolePath": "ePO → Drive Encryption → Progress",
+        "severity": "High"
+      }
+    ],
+    "Forcepoint": [
+      {
+        "code": "client_uninstalled",
+        "label": "Endpoint client uninstalled",
+        "description": "Forcepoint endpoint DLP client was removed or never installed on this asset.",
+        "consolePath": "Security Manager → Endpoints → Status: Uninstalled",
+        "severity": "High"
+      },
+      {
+        "code": "server_unreachable",
+        "label": "Server unreachable",
+        "description": "Endpoint cannot send fingerprint hits to the policy server. Detections cache locally and may overflow.",
+        "consolePath": "Endpoints → Connectivity",
+        "severity": "Medium"
+      },
+      {
+        "code": "policy_load_fail",
+        "label": "Policy load failed",
+        "description": "Endpoint failed to parse the latest DLP policy bundle (schema or signature mismatch).",
+        "consolePath": "Endpoints → Last Policy Status",
+        "severity": "High"
+      },
+      {
+        "code": "classifier_update_failed",
+        "label": "Classifier update failed",
+        "description": "Updated content classifiers (PII, PCI, source code) did not deploy to endpoint.",
+        "consolePath": "Settings → Updates → Classifier",
+        "severity": "Medium"
+      }
+    ],
+    "Forescout": [
+      {
+        "code": "snmp_creds_failed",
+        "label": "Switch SNMP creds failed",
+        "description": "SNMP read on access switch failed — Forescout cannot enumerate MAC tables, so NAC enforcement on that VLAN is blind.",
+        "consolePath": "CounterACT → Asset Inventory → Switch Health",
+        "severity": "High"
+      },
+      {
+        "code": "arp_disabled_vlan",
+        "label": "ARP discovery disabled on VLAN",
+        "description": "VLAN excluded from ARP-based discovery — endpoints joining that segment go uncounted.",
+        "consolePath": "Discovery → Channels → ARP",
+        "severity": "Medium"
+      },
+      {
+        "code": "classification_orphan",
+        "label": "Asset awaiting classification",
+        "description": "Device fingerprint matched no profile. Posture policy cannot be applied.",
+        "consolePath": "Hosts → Classification → Unknown",
+        "severity": "Medium"
+      },
+      {
+        "code": "plugin_offline",
+        "label": "Plugin module offline",
+        "description": "Vendor-specific integration plugin (SwitchVendor / EDR) is offline — pivot data unavailable.",
+        "consolePath": "System → Plugins → Status",
+        "severity": "Medium"
+      }
+    ],
+    "Indusface AppTrana": [
+      {
+        "code": "site_not_in_scope",
+        "label": "FQDN not in WAF scope",
+        "description": "FQDN appears in DNS but isn't onboarded to the WAAP policy. No WAF protection on that hostname.",
+        "consolePath": "Sites → Manage → Not Onboarded",
+        "severity": "Critical"
+      },
+      {
+        "code": "monitor_mode_only",
+        "label": "Monitor mode only",
+        "description": "Site exists in WAAP but rules are observe-only. Attacks are logged but not blocked.",
+        "consolePath": "Site Settings → Mode",
+        "severity": "High"
+      },
+      {
+        "code": "scan_failed",
+        "label": "DAST scan failed",
+        "description": "Last weekly dynamic scan errored (auth, rate-limit, infrastructure). No fresh vulnerability data.",
+        "consolePath": "Scans → History → Failed",
+        "severity": "Medium"
+      },
+      {
+        "code": "cert_validation_failed",
+        "label": "Origin cert validation failed",
+        "description": "Origin server SSL certificate failed validation in last sweep (expiry / CN mismatch / chain).",
+        "consolePath": "Sites → Certificate Health",
+        "severity": "High"
+      }
+    ],
+    "Imperva WAF": [
+      {
+        "code": "gateway_disconnected",
+        "label": "WAF gateway disconnected",
+        "description": "On-prem SecureSphere gateway lost connection to MX. Inline traffic still flows but new rules can't deploy.",
+        "consolePath": "Setup → Gateways → Status",
+        "severity": "High"
+      },
+      {
+        "code": "signature_lag",
+        "label": "Signature lag >7d",
+        "description": "ADC content not refreshed for over a week. Newest threat signatures absent from the gateway.",
+        "consolePath": "Updates → Content Updates",
+        "severity": "Medium"
+      },
+      {
+        "code": "monitor_mode",
+        "label": "Policy in monitor mode",
+        "description": "Critical signature policy left in simulation. Hits are tracked but no block applied.",
+        "consolePath": "Policies → Web Application → Action",
+        "severity": "High"
+      },
+      {
+        "code": "ssl_decryption_failed",
+        "label": "SSL decryption failed",
+        "description": "Cert mismatch on inbound HTTPS — gateway forwarding encrypted traffic without inspection.",
+        "consolePath": "Setup → SSL Keys → Errors",
+        "severity": "High"
+      }
+    ],
+    "TCPWAVE": [
+      {
+        "code": "dns_zone_transfer_failed",
+        "label": "Zone transfer failed",
+        "description": "Secondary DNS slave failed to receive zone updates from master in last 4 cycles.",
+        "consolePath": "DNS → Zones → Replication Health",
+        "severity": "High"
+      },
+      {
+        "code": "dhcp_lease_exhaustion",
+        "label": "DHCP scope >90%",
+        "description": "Scope utilization above 90% — new clients on that subnet will be denied.",
+        "consolePath": "DHCP → Scopes → Utilization",
+        "severity": "High"
+      },
+      {
+        "code": "ipam_drift",
+        "label": "IPAM drift",
+        "description": "Discovered IPs differ from declared inventory. Visible delta indicates rogue or orphaned hosts.",
+        "consolePath": "IPAM → Reconciliation → Drift",
+        "severity": "Medium"
+      },
+      {
+        "code": "anycast_node_unhealthy",
+        "label": "Anycast node unhealthy",
+        "description": "One of the anycast resolvers is failing healthchecks. Pool degraded.",
+        "consolePath": "Monitoring → Anycast → Node Health",
+        "severity": "Medium"
+      }
+    ],
+    "Guardicore": [
+      {
+        "code": "collector_offline",
+        "label": "Collector offline",
+        "description": "Subnet collector hasn't reported in. Flow visibility into that segment paused.",
+        "consolePath": "Inventory → Collectors → Status",
+        "severity": "High"
+      },
+      {
+        "code": "policy_diverged",
+        "label": "Asset policy diverged",
+        "description": "Asset's effective ruleset differs from the labeled intent. Possible mis-tag or out-of-band change.",
+        "consolePath": "Reveal → Policy Reconciliation",
+        "severity": "Medium"
+      },
+      {
+        "code": "asset_unclassified",
+        "label": "Asset unclassified",
+        "description": "Discovered workload has no labels — fallback allow-all rule applies.",
+        "consolePath": "Inventory → Unlabeled Assets",
+        "severity": "Medium"
+      },
+      {
+        "code": "label_drift",
+        "label": "Label drift",
+        "description": "Auto-applied labels disagree with the source-of-truth (CMDB).",
+        "consolePath": "Labels → Drift Report",
+        "severity": "Low"
+      }
+    ],
+    "GlobalScape": [
+      {
+        "code": "partner_cert_expired",
+        "label": "Partner cert expired",
+        "description": "External partner's authentication certificate expired. Inbound transfers will be rejected on next attempt.",
+        "consolePath": "Server → Authentication → Certificates",
+        "severity": "Critical"
+      },
+      {
+        "code": "account_disabled",
+        "label": "Partner account disabled",
+        "description": "Active partner account in disabled state — likely missed re-attestation cadence.",
+        "consolePath": "Accounts → Filter: Disabled",
+        "severity": "Medium"
+      },
+      {
+        "code": "sftp_listener_down",
+        "label": "SFTP listener down",
+        "description": "TCP listener on the SFTP port not responding. Partner transfers queueing or failing.",
+        "consolePath": "Server → Listeners → Status",
+        "severity": "Critical"
+      },
+      {
+        "code": "audit_log_gap",
+        "label": "Audit log gap",
+        "description": "Local audit log writer dropped frames during last burst — chain-of-custody incomplete.",
+        "consolePath": "Audit → Integrity",
+        "severity": "Medium"
+      }
+    ],
+    "Fortinet": [
+      {
+        "code": "ha_desync",
+        "label": "HA pair desynced",
+        "description": "Active/passive FortiGate pair no longer in sync — failover may not preserve session state.",
+        "consolePath": "FortiGate → System → HA → Sync Status",
+        "severity": "Critical"
+      },
+      {
+        "code": "fortiguard_lapsed",
+        "label": "FortiGuard subscription lapsed",
+        "description": "FortiGuard threat-intel licenses expired. IPS/AV signatures frozen at last refresh.",
+        "consolePath": "FortiGate → System → FortiGuard",
+        "severity": "Critical"
+      },
+      {
+        "code": "ssl_inspection_cert_missing",
+        "label": "SSL inspection cert missing",
+        "description": "Deep-inspection profile references a CA cert that no longer exists. HTTPS traffic bypassed.",
+        "consolePath": "FortiGate → Security Profiles → SSL Inspection",
+        "severity": "High"
+      },
+      {
+        "code": "sslvpn_users_dropped",
+        "label": "SSL-VPN users dropped",
+        "description": "Recent SSL-VPN session count dropped to zero despite usual demand — listener may be down.",
+        "consolePath": "FortiGate → VPN → SSL Monitor",
+        "severity": "High"
+      },
+      {
+        "code": "tunnel_down",
+        "label": "SD-WAN tunnel down",
+        "description": "Overlay tunnel on a branch edge is failing healthchecks. Traffic re-steered to backup but degraded.",
+        "consolePath": "FortiGate → SD-WAN → Performance SLA",
+        "severity": "High"
+      },
+      {
+        "code": "sla_overlay_breach",
+        "label": "SLA overlay breach",
+        "description": "Latency/loss/jitter on an overlay exceeded the SLA threshold in the last 15 minutes.",
+        "consolePath": "FortiGate → SD-WAN → SLA Targets",
+        "severity": "Medium"
+      },
+      {
+        "code": "overlay_unstable",
+        "label": "Overlay unstable",
+        "description": "Repeated BFD flaps observed on the tunnel — provider underlay or upstream issue suspected.",
+        "consolePath": "FortiGate → SD-WAN → Logs",
+        "severity": "Medium"
+      },
+      {
+        "code": "adom_sync_failed",
+        "label": "ADOM sync failed",
+        "description": "FortiManager ADOM database failed to sync changes to a managed device on last push.",
+        "consolePath": "FortiManager → System → Sync Status",
+        "severity": "High"
+      },
+      {
+        "code": "device_offline",
+        "label": "Managed device offline",
+        "description": "FortiManager reports the managed FortiGate as offline. Policy installs queued.",
+        "consolePath": "FortiManager → Device Manager → Status",
+        "severity": "High"
+      },
+      {
+        "code": "policy_install_failed",
+        "label": "Policy install failed",
+        "description": "FortiManager → device policy install errored on last attempt (validation, lock, comm).",
+        "consolePath": "FortiManager → Tasks → Install History",
+        "severity": "High"
+      },
+      {
+        "code": "log_collector_down",
+        "label": "FortiAnalyzer collector down",
+        "description": "Inbound log collector process not responding. Devices buffering locally, eventual loss possible.",
+        "consolePath": "FortiAnalyzer → System → Log Receive",
+        "severity": "High"
+      },
+      {
+        "code": "disk_pressure",
+        "label": "FortiAnalyzer disk pressure",
+        "description": "Logging disk above 85% — rotation may evict events before retention floor.",
+        "consolePath": "FortiAnalyzer → System → Storage",
+        "severity": "Medium"
+      },
+      {
+        "code": "syslog_drop",
+        "label": "Syslog drops detected",
+        "description": "Spike of dropped syslog datagrams observed. Indexer can't keep up with inbound rate.",
+        "consolePath": "FortiAnalyzer → Logs → Receive Rate",
+        "severity": "Medium"
+      },
+      {
+        "code": "retention_breach",
+        "label": "Retention floor breach",
+        "description": "Aged events being pruned earlier than compliance-required retention (RBI = 180 d, ISO = 365 d).",
+        "consolePath": "FortiAnalyzer → Storage → Retention",
+        "severity": "High"
+      }
+    ]
+  }
+}

@@ -88,7 +88,12 @@ export function scoreToStatus(score: number): RagStatus {
 /** Convenience: enrich a ToolSeed + runtime values into a full Tool. */
 export function buildTool(
   seed: ToolSeed,
-  runtime: { observed: number; lastSync: string; causes: VisibilityCauseFlag[] },
+  runtime: {
+    observed: number;
+    lastSync: string;
+    causes: VisibilityCauseFlag[];
+    activeLossReasons?: string[];
+  },
 ): Tool {
   const breakdown = scoreVisibility({
     severity: seed.severity,
@@ -101,6 +106,7 @@ export function buildTool(
     observed: runtime.observed,
     lastSync: runtime.lastSync,
     causes: runtime.causes,
+    activeLossReasons: runtime.activeLossReasons ?? [],
     status: breakdown.status,
     score: roundTo(breakdown.score, 2),
   };
