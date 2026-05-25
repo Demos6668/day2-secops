@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/shared";
 import { Badge } from "@/components/ui/badge";
 import { OemMark } from "@/components/Brand";
+import { LossReasonChips } from "@/components/Dashboard";
 import { ScoreBreakdown } from "@/components/Dashboard/ScoreBreakdown";
+import { reasonsForOem } from "@/lib/feeder/seed";
 import { ToolDashboard } from "@/components/ToolDashboard";
 import { useWorkspace } from "@/lib/workspace";
 import { useFeeder } from "@/components/Feeder";
@@ -69,6 +71,40 @@ export default function ToolDetail() {
           </Button>
         }
       />
+
+      {tool.activeLossReasons && tool.activeLossReasons.length > 0 && (
+        <Card className="glass-panel">
+          <CardContent className="p-4 space-y-2.5">
+            <div className="flex items-baseline justify-between flex-wrap gap-2">
+              <div>
+                <div className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground">
+                  Why is inventory dropping?
+                </div>
+                <h3 className="text-sm font-semibold mt-0.5">
+                  {tool.activeLossReasons.length} active reason
+                  {tool.activeLossReasons.length === 1 ? "" : "s"} from {tool.oem}
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono text-muted-foreground">
+                pulled from {tool.oem} admin console
+              </span>
+            </div>
+            <LossReasonChips oem={tool.oem} codes={tool.activeLossReasons} />
+            <p className="text-[11px] text-muted-foreground leading-relaxed">
+              Hover any chip for the description and the exact console path an operator should
+              follow to investigate.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {(tool.activeLossReasons?.length ?? 0) === 0 && reasonsForOem(tool.oem).length > 0 && (
+        <Card className="glass-panel">
+          <CardContent className="p-3 text-[11px] text-muted-foreground">
+            No active loss reasons reported from the {tool.oem} console right now.
+          </CardContent>
+        </Card>
+      )}
 
       {/* Hero strip: brand mark + visibility + RAG */}
       <Card className="glass-panel">

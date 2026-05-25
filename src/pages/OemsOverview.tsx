@@ -9,6 +9,8 @@ import { getRagToken } from "@/lib/rag-tokens";
 import { useFeeder } from "@/components/Feeder";
 import { cn, formatRelative } from "@/lib/utils";
 import type { RagStatus, Tool } from "@/types/tool";
+import { reasonsForOem } from "@/lib/feeder/seed";
+import type { OemLossReason } from "@/types/oem-reasons";
 
 interface OemRow {
   oem: string;
@@ -17,6 +19,37 @@ interface OemRow {
   denom: number;
   worstStatus: RagStatus;
   lastSync: string;
+  topReasons: { label: string; severity: OemLossReason["severity"]; count: number }[];
+}
+
+function aggregateReasons(oem: string, tools: Tool[]) {
+  const catalog = reasonsForOem(oem);
+  if (catalog.length === 0) return [];
+  const tally = new Map<string, number>();
+  for (const t of tools) {
+    for (const code of t.activeLossReasons ?? []) {
+      tally.set(code, (tally.get(code) ?? 0) + 1);
+    }
+  }
+  return [...tally.entries()]
+    .map(([code, count]) => {
+      const entry = catalog.find((r) => r.code === code);
+      if (!entry) return null;
+      return { label: entry.label, severity: entry.severity, count };
+    })
+    .filter((r): r is { label: string; severity: OemLossReason["severity"]; count: number } =>
+      Boolean(r),
+    )
+    .sort((a, b) => {
+      const sevRank: Record<OemLossReason["severity"], number> = {
+        Critical: 4,
+        High: 3,
+        Medium: 2,
+        Low: 1,
+      };
+      return sevRank[b.severity] - sevRank[a.severity] || b.count - a.count;
+    })
+    .slice(0, 3);
 }
 
 function aggregate(tools: Tool[]): OemRow[] {
@@ -31,6 +64,7 @@ function aggregate(tools: Tool[]): OemRow[] {
         denom: 0,
         worstStatus: "green",
         lastSync: t.lastSync,
+        topReasons: [],
       } as OemRow);
     cur.tools.push(t);
     cur.observed += t.observed;
@@ -41,11 +75,21 @@ function aggregate(tools: Tool[]): OemRow[] {
       cur.lastSync = t.lastSync;
     map.set(t.oem, cur);
   }
+  for (const row of map.values()) {
+    row.topReasons = aggregateReasons(row.oem, row.tools);
+  }
   const rank: Record<RagStatus, number> = { red: 0, amber: 1, green: 2 };
   return Array.from(map.values()).sort(
     (a, b) => rank[a.worstStatus] - rank[b.worstStatus] || a.oem.localeCompare(b.oem),
   );
 }
+
+const REASON_TONE: Record<OemLossReason["severity"], string> = {
+  Critical: "text-[#F87171]",
+  High: "text-[#F59E0B]",
+  Medium: "text-[#FBBF24]",
+  Low: "text-muted-foreground",
+};
 
 const STRIPE: Record<RagStatus, string> = {
   red: "lstripe-red",
@@ -120,6 +164,23 @@ export default function OemsOverview() {
                   <div className="text-[10px] font-mono text-muted-foreground mt-1">
                     last sync {formatRelative(r.lastSync)}
                   </div>
+                  {r.topReasons.length > 0 && (
+                    <ul className="mt-2 space-y-0.5">
+                      {r.topReasons.map((tr) => (
+                        <li
+                          key={tr.label}
+                          className="flex items-center justify-between gap-2 text-[10px] font-mono"
+                        >
+                          <span className={cn("truncate", REASON_TONE[tr.severity])}>
+                            {tr.label}
+                          </span>
+                          <span className="text-muted-foreground tabular-nums shrink-0">
+                            ×{tr.count}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
               <ul className="border-t hairline-t divide-y divide-white/5">

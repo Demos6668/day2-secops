@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { OemMark } from "@/components/Brand";
 import { RagBadge } from "@/components/Common/RagBadge";
+import { LossReasonChips } from "./LossReasonChips";
 import { rankByRisk } from "@/lib/visibility/risk";
 import { cn } from "@/lib/utils";
 import {
