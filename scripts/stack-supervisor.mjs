@@ -633,6 +633,57 @@ const frontend = new ManagedChild({
 
 const children = [frontend];
 
+// Postgres child for the OSINT backend. Enabled when ABCL_SECVIZ_PG_BIN and
+// ABCL_SECVIZ_PG_DATA are both set. The api-server has built-in connection
+// retry, so it tolerates a delayed DB start.
+if (cfg.pgBin && cfg.pgData) {
+  const postgresBin = join(cfg.pgBin, "postgres");
+  if (!existsSync(postgresBin)) {
+    log("warn", { event: "postgres_disabled", reason: "bin_missing", path: postgresBin });
+  } else if (!existsSync(cfg.pgData)) {
+    log("warn", { event: "postgres_disabled", reason: "data_missing", path: cfg.pgData });
+  } else {
+    const pgArgs = ["-D", cfg.pgData, "-p", String(cfg.pgPort), "-h", cfg.pgHost];
+    if (cfg.pgRunDir) pgArgs.push("-k", cfg.pgRunDir);
+    const postgres = new ManagedChild({
+      name: "postgres",
+      command: postgresBin,
+      args: pgArgs,
+      cwd: cfg.pgData,
+      healthUrl: null,
+      tcpHealth: { host: cfg.pgHost, port: cfg.pgPort },
+      startupGraceMs: 60_000, // postgres recovery can be slow
+      preStart: () => {
+        // Clean stale Unix-socket lock if no process holds it. pg_ctl
+        // normally does this, but we spawn `postgres` directly so we have
+        // to do it ourselves. We only nuke the lock when no PID inside it
+        // is alive — a live postgres would still own these.
+        if (!cfg.pgRunDir) return;
+        const sock = join(cfg.pgRunDir, `.s.PGSQL.${cfg.pgPort}`);
+        const lock = `${sock}.lock`;
+        if (!existsSync(lock)) return;
+        let owner = null;
+        try {
+          const first = readFileSync(lock, "utf8").split("\n")[0].trim();
+          const n = Number(first);
+          if (Number.isFinite(n) && n > 0) owner = n;
+        } catch {}
+        let alive = false;
+        if (owner) {
+          try { process.kill(owner, 0); alive = true; } catch {}
+        }
+        if (!alive) {
+          for (const p of [sock, lock]) {
+            try { unlinkSync(p); } catch {}
+          }
+          log("info", { event: "postgres_stale_lock_cleaned", port: cfg.pgPort });
+        }
+      },
+    });
+    children.push(postgres);
+  }
+}
+
 if (!cfg.disableApi) {
   const api = new ManagedChild({
     name: "api-server",
