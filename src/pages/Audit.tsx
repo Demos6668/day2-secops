@@ -14,7 +14,7 @@ const COMBINED_TAB = "__combined__";
 export default function Audit() {
   const { frameworks } = useWorkspace();
   const { tools } = useFeeder();
-  const [matched, params] = useRoute<{ framework?: string }>("/audit/:framework");
+  const [matched, params] = useRoute<{ framework?: string }>("/audit/by-framework/:framework");
   const [, setLocation] = useLocation();
   const initial = matched && params?.framework ? params.framework : COMBINED_TAB;
   const [tab, setTab] = useState(initial);
@@ -25,7 +25,9 @@ export default function Audit() {
 
   const selectFramework = (fwId: string) => {
     setTab(fwId);
-    setLocation(fwId === COMBINED_TAB ? "/audit" : `/audit/${fwId}`);
+    setLocation(
+      fwId === COMBINED_TAB ? "/audit/by-framework" : `/audit/by-framework/${fwId}`,
+    );
   };
 
   const orderedTools = useMemo(
