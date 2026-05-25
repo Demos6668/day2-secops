@@ -160,16 +160,6 @@ export default function VulnInsint() {
         </Card>
       </div>
 
-      <Card className="glass-panel">
-        <CardContent className="p-4 text-[11px] text-muted-foreground flex items-center gap-2">
-          <ShieldAlert className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-          <span>
-            Demo INSINT data lives at <code>workspaces/abcl/insint.json</code>. Phase-real: replace
-            with the Nessus / custom-agent webhook adapter that posts to
-            <code> /api/insint</code>.
-          </span>
-        </CardContent>
-      </Card>
     </div>
   );
 }

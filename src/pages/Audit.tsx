@@ -37,7 +37,7 @@ export default function Audit() {
   );
 
   const exportNotice = () =>
-    alert("PDF / XLSX export is a Phase-5 placeholder — no real generator wired yet.");
+    alert("Export is not available in this build.");
 
   return (
     <div className="space-y-6">
@@ -82,8 +82,7 @@ export default function Audit() {
             <CardContent className="p-4 text-[11px] text-muted-foreground">
               Coverage is derived from the framework's anchor-tool list intersected with each tool's
               current RAG status. Anchored + healthy = <strong>covered</strong>; anchored + degraded
-              = <strong>partial</strong>; anchor-less control =<strong> gap</strong>. Phase-real
-              swaps this heuristic for the auditor-curated mapping.
+              = <strong>partial</strong>; anchor-less control = <strong>gap</strong>.
             </CardContent>
           </Card>
         </TabsContent>

@@ -190,7 +190,7 @@ export function ScoreBreakdown({ tool, freshnessSloHours, className }: ScoreBrea
           <VisibilitySparkline tool={tool} />
         </div>
         <p className="text-[10px] text-muted-foreground font-mono">
-          Mock series (Phase 3 wires the live feeder)
+          Rolling 24-point window from the live feeder.
         </p>
       </section>
 

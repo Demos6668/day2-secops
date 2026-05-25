@@ -146,15 +146,9 @@ export default function ConfigBackups() {
       )}
 
       <Card className="glass-panel">
-        <CardContent className="p-4 text-[11px] text-muted-foreground space-y-1">
-          <p>
-            <strong>Retention</strong>: 30 days for daily backups, 12 months for weekly snapshots.
-            Pre-change backups retained until 7 days after the change is closed.
-          </p>
-          <p>
-            <strong>Status</strong>: Phase-real. Download + restore actions wire to a per-OEM backup
-            adapter; currently disabled in demo data.
-          </p>
+        <CardContent className="p-4 text-[11px] text-muted-foreground">
+          <strong>Retention</strong>: 30 days for daily backups, 12 months for weekly snapshots.
+          Pre-change backups retained until 7 days after the change is closed.
         </CardContent>
       </Card>
     </div>

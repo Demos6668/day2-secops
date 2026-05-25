@@ -150,7 +150,7 @@ export function ControlMatrix({ framework, tools }: ControlMatrixProps) {
             )}
           </div>
           <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
-            Evidence locker + last-reviewed wiring (Phase-real)
+            Evidence locker — open the control for attested artifacts.
             <ExternalLink className="h-3 w-3" />
           </div>
         </div>

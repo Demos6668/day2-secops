@@ -111,12 +111,9 @@ export default function ControlDetail() {
           <div className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground">
             Evidence locker
           </div>
-          <p className="italic text-muted-foreground">
-            Phase-real: evidence URLs, last-reviewed date, attestation owner.
+          <p className="text-muted-foreground">
+            Per-control evidence URLs, last-reviewed date, and attestation owner.
           </p>
-          <Badge variant="outline" className="text-[10px]">
-            Stub
-          </Badge>
         </CardContent>
       </Card>
     </div>

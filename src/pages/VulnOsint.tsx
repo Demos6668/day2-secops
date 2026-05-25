@@ -299,12 +299,9 @@ export default function VulnOsint() {
       </Card>
 
       <Card className="glass-panel">
-        <CardContent className="p-3 text-[11px] text-muted-foreground space-y-1">
-          <p>
-            <strong>Integration model</strong>: Day2 OSINT runs as a sister service and is embedded
-            here via iframe. Cross-origin SSO bridge is planned for Phase-real — today, signing into
-            OSINT once carries the session through.
-          </p>
+        <CardContent className="p-3 text-[11px] text-muted-foreground">
+          <strong>Integration model</strong>: Day2 OSINT runs as a sister service and is embedded
+          here via iframe. Sign into OSINT once and the session carries through.
         </CardContent>
       </Card>
     </div>

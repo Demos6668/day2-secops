@@ -164,12 +164,6 @@ export default function AuditChecklist() {
         })}
       </div>
 
-      <Card className="glass-panel">
-        <CardContent className="p-4 text-[11px] text-muted-foreground">
-          Phase-real: persist checklists in the server (`/api/audit/checklists`), expose CRUD, and
-          integrate with the per-control evidence locker.
-        </CardContent>
-      </Card>
     </div>
   );
 }

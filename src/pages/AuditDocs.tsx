@@ -141,12 +141,6 @@ export default function AuditDocs() {
         </CardContent>
       </Card>
 
-      <Card className="glass-panel">
-        <CardContent className="p-4 text-[11px] text-muted-foreground">
-          Phase-real: wire the upload action to a server-backed object store (S3-compatible).
-          Per-doc hash + signing-time + immutability for audit-grade evidence chain of custody.
-        </CardContent>
-      </Card>
     </div>
   );
 }

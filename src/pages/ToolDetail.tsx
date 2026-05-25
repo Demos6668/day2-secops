@@ -225,7 +225,7 @@ export default function ToolDetail() {
             <CardContent className="p-4 text-xs text-muted-foreground flex items-center justify-between">
               <span>
                 <ExternalLink className="inline h-3 w-3 mr-1" />
-                Native console link (Phase-real)
+                Native console link
               </span>
               <Button size="sm" variant="outline" disabled>
                 Open in {tool.oem}
