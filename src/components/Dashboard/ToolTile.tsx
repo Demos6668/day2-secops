@@ -71,7 +71,7 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
   return (
     <div
       className={cn(
-        "group relative h-10 flex items-center gap-2 pr-2 pl-3 rounded-md",
+        "group relative h-12 flex items-center gap-2.5 pr-2 pl-3 rounded-md",
         "bg-card hover:bg-white/[0.03] focus-visible:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-primary",
         "cursor-pointer outline-none transition-colors",
         className,
@@ -96,16 +96,18 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
         )}
       />
 
-      {/* OEM logo — already has its own name tooltip via OemMark */}
-      <OemMark oem={tool.oem} size={22} />
+      {/* OEM logo — also carries name tooltip via OemMark */}
+      <OemMark oem={tool.oem} size={26} />
 
-      {/* Title block: solution · oem (single line, ellipsis) */}
+      {/* Title block: solution (line 1, prominent) + OEM (line 2, brand-tinted) */}
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex-1 min-w-0 leading-tight">
-            <div className="text-[13px] font-medium truncate">
+            <div className="text-[14px] font-semibold truncate text-foreground">
               {tool.solution}
-              <span className="text-muted-foreground font-normal"> · {tool.oem}</span>
+            </div>
+            <div className="text-[11px] font-medium truncate text-muted-foreground/90 mt-0.5">
+              {tool.oem}
             </div>
           </div>
         </TooltipTrigger>

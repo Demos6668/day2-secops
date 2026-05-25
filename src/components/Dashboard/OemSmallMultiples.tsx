@@ -76,10 +76,12 @@ export function OemSmallMultiples({ tools, className }: OemSmallMultiplesProps) 
                 )}
                 aria-label={`${a.oem} — ${a.toolCount} tools, ${a.worstStatus} worst, ${a.visibilityPct.toFixed(1)}% visibility`}
               >
-                <OemMark oem={a.oem} size={28} />
+                <OemMark oem={a.oem} size={32} />
                 <div className="flex-1 min-w-0">
-                  <div className="text-[13px] font-semibold truncate leading-tight">{a.oem}</div>
-                  <div className="text-[10px] font-mono text-muted-foreground tabular-nums truncate">
+                  <div className="text-[14px] font-semibold truncate leading-tight text-foreground">
+                    {a.oem}
+                  </div>
+                  <div className="text-[11px] font-mono text-muted-foreground tabular-nums truncate mt-0.5">
                     {a.toolCount} {a.toolCount === 1 ? "tool" : "tools"} ·{" "}
                     {a.visibilityPct.toFixed(0)}% visible
                   </div>
