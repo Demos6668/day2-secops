@@ -83,10 +83,7 @@ export function OperationsPanel({ toolId, oem }: OperationsPanelProps) {
             </div>
             <ul className="space-y-1">
               {ops.telemetryEndpoints.map((ep, i) => (
-                <li
-                  key={i}
-                  className="flex items-baseline gap-2 text-xs leading-snug"
-                >
+                <li key={i} className="flex items-baseline gap-2 text-xs leading-snug">
                   {ep.kind && (
                     <span
                       className={cn(

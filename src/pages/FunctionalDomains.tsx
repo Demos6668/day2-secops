@@ -85,7 +85,8 @@ function rollUpByDomain(tools: Tool[]): DomainRow[] {
     if (t.status === "red") row.worstStatus = "red";
     else if (t.status === "amber" && row.worstStatus !== "red") row.worstStatus = "amber";
     const ops = operationsFor(t.id);
-    if (ops) for (const v of ops.collectionVectors) if (!row.vectors.includes(v)) row.vectors.push(v);
+    if (ops)
+      for (const v of ops.collectionVectors) if (!row.vectors.includes(v)) row.vectors.push(v);
   }
   return Array.from(map.values()).sort(
     (a, b) => RAG_RANK[a.worstStatus] - RAG_RANK[b.worstStatus] || b.tools.length - a.tools.length,
@@ -112,7 +113,12 @@ export default function FunctionalDomains() {
   }
 
   if (focusedDomain) {
-    return <DomainDetail domain={focusedDomain} tools={tools.filter((t) => t.functionalDomain === focusedDomain)} />;
+    return (
+      <DomainDetail
+        domain={focusedDomain}
+        tools={tools.filter((t) => t.functionalDomain === focusedDomain)}
+      />
+    );
   }
 
   const orphanCount = tools.filter((t) => !t.functionalDomain).length;
@@ -176,11 +182,7 @@ export default function FunctionalDomains() {
                 {r.vectors.length > 0 && (
                   <div className="flex items-center gap-1 flex-wrap text-[10px] font-mono text-muted-foreground">
                     {r.vectors.slice(0, 4).map((v) => (
-                      <Badge
-                        key={v}
-                        variant="outline"
-                        className="text-[9px] font-mono py-0 h-4"
-                      >
+                      <Badge key={v} variant="outline" className="text-[9px] font-mono py-0 h-4">
                         {v}
                       </Badge>
                     ))}
@@ -239,10 +241,18 @@ function DomainDetail({ domain, tools }: { domain: FunctionalDomain; tools: Tool
                 <th scope="col" className="text-left px-3 py-2">
                   <span className="sr-only">Vendor</span>
                 </th>
-                <th scope="col" className="text-left px-3 py-2">Tool</th>
-                <th scope="col" className="text-left px-3 py-2">Collection vector</th>
-                <th scope="col" className="text-left px-3 py-2">Critical alert threshold</th>
-                <th scope="col" className="text-left px-3 py-2">Daily change points</th>
+                <th scope="col" className="text-left px-3 py-2">
+                  Tool
+                </th>
+                <th scope="col" className="text-left px-3 py-2">
+                  Collection vector
+                </th>
+                <th scope="col" className="text-left px-3 py-2">
+                  Critical alert threshold
+                </th>
+                <th scope="col" className="text-left px-3 py-2">
+                  Daily change points
+                </th>
               </tr>
             </thead>
             <tbody>

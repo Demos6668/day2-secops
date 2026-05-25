@@ -46,13 +46,12 @@ export const FUNCTIONAL_DOMAIN_SLUG: Record<FunctionalDomain, string> = {
   "Network Plumbing": "network-plumbing",
   "Firewall Controller": "firewall-controller",
 };
-export const FUNCTIONAL_DOMAIN_BY_SLUG: Record<string, FunctionalDomain> =
-  Object.fromEntries(
-    (Object.keys(FUNCTIONAL_DOMAIN_SLUG) as FunctionalDomain[]).map((d) => [
-      FUNCTIONAL_DOMAIN_SLUG[d],
-      d,
-    ]),
-  ) as Record<string, FunctionalDomain>;
+export const FUNCTIONAL_DOMAIN_BY_SLUG: Record<string, FunctionalDomain> = Object.fromEntries(
+  (Object.keys(FUNCTIONAL_DOMAIN_SLUG) as FunctionalDomain[]).map((d) => [
+    FUNCTIONAL_DOMAIN_SLUG[d],
+    d,
+  ]),
+) as Record<string, FunctionalDomain>;
 
 export const MockProfileSchema = z.enum(["healthy", "degraded", "flapping", "stale"]);
 export type MockProfile = z.infer<typeof MockProfileSchema>;
