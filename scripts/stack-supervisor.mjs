@@ -51,6 +51,24 @@
 //   PNPM_BIN                        absolute path to pnpm (auto-detected)
 
 import { spawn, execSync } from "node:child_process";
+import net from "node:net";
+
+function tcpProbe(host, port, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const s = new net.Socket();
+    let done = false;
+    const finish = (err) => {
+      if (done) return;
+      done = true;
+      try { s.destroy(); } catch {}
+      err ? reject(err) : resolve();
+    };
+    s.setTimeout(timeoutMs, () => finish(new Error("tcp probe timeout")));
+    s.once("error", finish);
+    s.once("connect", () => finish());
+    s.connect(port, host);
+  });
+}
 import {
   mkdirSync,
   statSync,
@@ -61,6 +79,7 @@ import {
   writeSync,
   readFileSync,
   rmSync as fsRmSync,
+  unlinkSync,
 } from "node:fs";
 import { readdir, stat as statAsync, rm, statfs } from "node:fs/promises";
 import { join, resolve, dirname } from "node:path";
@@ -83,6 +102,11 @@ const cfg = {
   disableApi: process.env.ABCL_SECVIZ_DISABLE_API === "1",
   osintCwd: process.env.ABCL_SECVIZ_OSINT_CWD ?? "",
   osintPort: numEnv("ABCL_SECVIZ_OSINT_PORT", 5173),
+  pgBin: process.env.ABCL_SECVIZ_PG_BIN ?? "",
+  pgData: process.env.ABCL_SECVIZ_PG_DATA ?? "",
+  pgRunDir: process.env.ABCL_SECVIZ_PG_RUN_DIR ?? "",
+  pgPort: numEnv("ABCL_SECVIZ_PG_PORT", 5432),
+  pgHost: process.env.ABCL_SECVIZ_PG_HOST ?? "127.0.0.1",
   healthIntervalMs: numEnv("ABCL_SECVIZ_HEALTH_INTERVAL_MS", 30_000),
   healthTimeoutMs: numEnv("ABCL_SECVIZ_HEALTH_TIMEOUT_MS", 10_000),
   healthFailThreshold: numEnv("ABCL_SECVIZ_HEALTH_FAIL_THRESHOLD", 5),
@@ -216,13 +240,15 @@ function readProcRssMb(pid) {
 // -- child management ---------------------------------------------------
 
 class ManagedChild {
-  constructor({ name, command, args, cwd, env = {}, healthUrl, startupGraceMs, essential = true }) {
+  constructor({ name, command, args, cwd, env = {}, healthUrl, startupGraceMs, essential = true, preStart, tcpHealth }) {
     this.name = name;
     this.command = command;
     this.args = args;
     this.cwd = cwd;
     this.env = env;
     this.healthUrl = healthUrl;
+    this.tcpHealth = tcpHealth; // { host, port } for non-HTTP services like Postgres
+    this.preStart = preStart; // optional sync callback before each spawn
     this.startupGraceMs = startupGraceMs ?? cfg.startupGraceMs;
     this.essential = essential;
     this.proc = null;
@@ -246,6 +272,13 @@ class ManagedChild {
     if (this.proc || this.shuttingDown || this.quarantined) return;
     this.lastStartedAt = Date.now();
     log("info", { event: "child_starting", child: this.name, reason });
+    if (typeof this.preStart === "function") {
+      try {
+        this.preStart();
+      } catch (e) {
+        log("warn", { event: "child_prestart_error", child: this.name, err: e.message });
+      }
+    }
     rotateIfTooBig(this.logPath);
     const out = openSync(this.logPath, "a");
     this.proc = spawn(this.command, this.args, {
@@ -317,17 +350,25 @@ class ManagedChild {
   }
 
   async checkHealth() {
-    if (!this.proc || !this.healthUrl) return;
+    if (!this.proc) return;
+    if (!this.healthUrl && !this.tcpHealth) return;
     if (Date.now() - this.lastStartedAt < this.startupGraceMs) return;
     let ok = false;
     let detail = "";
-    try {
-      const r = await fetch(this.healthUrl, { signal: AbortSignal.timeout(cfg.healthTimeoutMs) });
-      ok = r.status < 500;
-      detail = `HTTP ${r.status}`;
-    } catch (e) {
-      ok = false;
-      detail = e.message;
+    if (this.healthUrl) {
+      try {
+        const r = await fetch(this.healthUrl, { signal: AbortSignal.timeout(cfg.healthTimeoutMs) });
+        ok = r.status < 500;
+        detail = `HTTP ${r.status}`;
+      } catch (e) {
+        ok = false;
+        detail = e.message;
+      }
+    } else if (this.tcpHealth) {
+      ok = await tcpProbe(this.tcpHealth.host, this.tcpHealth.port, cfg.healthTimeoutMs)
+        .then(() => true)
+        .catch(() => false);
+      detail = ok ? "TCP ok" : "TCP fail";
     }
     if (ok) {
       if (this.healthFailures > 0) {
