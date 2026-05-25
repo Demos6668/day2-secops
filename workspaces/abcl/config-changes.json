@@ -1,0 +1,230 @@
+{
+  "changes": [
+    {
+      "id": "chg-2026-05-25-001",
+      "timestamp": "2026-05-25T04:18:00.000Z",
+      "toolId": "fortinetFw",
+      "actor": "net.ops/asha.r",
+      "ticket": "CHG-44218",
+      "type": "firewall_rule_add",
+      "summary": "Added allow rule on DC-Edge-A: src 0.0.0.0/0 → dst 10.20.30.0/24 dport 22 tcp",
+      "riskClass": "dangerous",
+      "riskReasons": [
+        "ANY source on an internet-edge firewall",
+        "SSH (22) exposed to internet directly",
+        "No matching FortiManager policy template — out-of-band edit"
+      ],
+      "status": "deployed",
+      "diff": "+ rule 142 \"vendor-ssh-temp\" any → DMZ-bastion svc-SSH allow log"
+    },
+    {
+      "id": "chg-2026-05-25-002",
+      "timestamp": "2026-05-25T02:55:00.000Z",
+      "toolId": "impervaWaf",
+      "actor": "app.sec/k.banerjee",
+      "ticket": "INC-90123",
+      "type": "waf_policy_update",
+      "summary": "Set XSS injection signature pack from \"block\" → \"monitor only\" on app-portal.example.com",
+      "riskClass": "risky",
+      "riskReasons": [
+        "Signature pack downgraded to monitor-only",
+        "Production FQDN, no explicit rollback window set",
+        "Bypasses standard CR approval"
+      ],
+      "status": "deployed",
+      "diff": "- WAF.XSS.Block.Strict\n+ WAF.XSS.Monitor"
+    },
+    {
+      "id": "chg-2026-05-24-014",
+      "timestamp": "2026-05-24T19:40:00.000Z",
+      "toolId": "fortinetSdwan",
+      "actor": "net.ops/rajesh.k",
+      "ticket": "CHG-44199",
+      "type": "sdwan_overlay_update",
+      "summary": "Added BR-MUM-43 to default overlay; SLA target latency 80ms",
+      "riskClass": "safe",
+      "riskReasons": [],
+      "status": "deployed",
+      "diff": "+ branch BR-MUM-43 in overlay ov-prod-default"
+    },
+    {
+      "id": "chg-2026-05-24-011",
+      "timestamp": "2026-05-24T15:08:00.000Z",
+      "toolId": "mfa",
+      "actor": "iam.ops/p.subramani",
+      "ticket": "CHG-44180",
+      "type": "mfa_policy_edit",
+      "summary": "Disabled push-based factor for service-accounts policy group",
+      "riskClass": "safe",
+      "riskReasons": [],
+      "status": "deployed",
+      "diff": "- factor.push.enabled = true\n+ factor.push.enabled = false  (service-accounts group only)"
+    },
+    {
+      "id": "chg-2026-05-24-007",
+      "timestamp": "2026-05-24T11:22:00.000Z",
+      "toolId": "pam",
+      "actor": "iam.ops/p.subramani",
+      "ticket": "CHG-44171",
+      "type": "pam_policy_edit",
+      "summary": "Extended JIT checkout window for DBA group from 1h → 8h",
+      "riskClass": "risky",
+      "riskReasons": [
+        "Privileged window extended 8×",
+        "Affects 14 privileged DBAs",
+        "Reduces just-in-time guarantee"
+      ],
+      "status": "deployed",
+      "diff": "- jit.checkout.maxHours = 1\n+ jit.checkout.maxHours = 8  (group:DBA-Prod)"
+    },
+    {
+      "id": "chg-2026-05-23-018",
+      "timestamp": "2026-05-23T22:40:00.000Z",
+      "toolId": "fortinetMgr",
+      "actor": "net.ops/rajesh.k",
+      "ticket": "CHG-44150",
+      "type": "policy_install",
+      "summary": "Pushed ADOM \"DC-Core\" policy bundle to 12 managed FortiGates",
+      "riskClass": "safe",
+      "riskReasons": [],
+      "status": "deployed",
+      "diff": "ADOM:DC-Core revision 482 → 483 (no rule reordering)"
+    },
+    {
+      "id": "chg-2026-05-23-014",
+      "timestamp": "2026-05-23T18:05:00.000Z",
+      "toolId": "fortinetFw",
+      "actor": "net.ops/asha.r",
+      "ticket": "CHG-44141",
+      "type": "firewall_rule_add",
+      "summary": "Permit rule for partner-VPN subnet 198.51.100.0/24 → internal app tier",
+      "riskClass": "risky",
+      "riskReasons": [
+        "External partner subnet → internal app tier",
+        "Service set includes admin ports (8443, 9000)"
+      ],
+      "status": "deployed",
+      "diff": "+ rule 138 \"partner-vpn-app-tier\" 198.51.100.0/24 → 10.30.0.0/16 svc-app-admin allow"
+    },
+    {
+      "id": "chg-2026-05-23-010",
+      "timestamp": "2026-05-23T13:00:00.000Z",
+      "toolId": "forcepoint",
+      "actor": "data.ops/m.iyer",
+      "ticket": "CHG-44128",
+      "type": "dlp_policy_edit",
+      "summary": "Whitelisted file-share domain *.partner.example for HRMS classifier",
+      "riskClass": "risky",
+      "riskReasons": [
+        "Wildcard domain whitelist on HRMS classifier",
+        "Bypasses outbound-blob inspection for any *.partner.example child"
+      ],
+      "status": "deployed",
+      "diff": "+ classifier.HRMS.whitelist[] = \"*.partner.example\""
+    },
+    {
+      "id": "chg-2026-05-23-006",
+      "timestamp": "2026-05-23T09:30:00.000Z",
+      "toolId": "guardicore",
+      "actor": "net.ops/asha.r",
+      "ticket": "CHG-44114",
+      "type": "segment_policy_edit",
+      "summary": "New label \"db-prod-staging\" — allow JDBC from app-tier",
+      "riskClass": "safe",
+      "riskReasons": [],
+      "status": "deployed",
+      "diff": "+ label db-prod-staging\n+ rule app-tier → db-prod-staging tcp/1521 allow"
+    },
+    {
+      "id": "chg-2026-05-22-022",
+      "timestamp": "2026-05-22T21:55:00.000Z",
+      "toolId": "appTrana",
+      "actor": "app.sec/k.banerjee",
+      "ticket": "INC-90109",
+      "type": "waf_policy_update",
+      "summary": "Onboarded api-v2.example.com to WAAP — full block mode",
+      "riskClass": "safe",
+      "riskReasons": [],
+      "status": "deployed",
+      "diff": "+ site api-v2.example.com policy=block-strict"
+    },
+    {
+      "id": "chg-2026-05-22-017",
+      "timestamp": "2026-05-22T17:30:00.000Z",
+      "toolId": "forescout",
+      "actor": "net.ops/asha.r",
+      "ticket": "CHG-44078",
+      "type": "nac_policy_edit",
+      "summary": "Bypassed posture check for VLAN 412 (lab segment) — temp 14d",
+      "riskClass": "risky",
+      "riskReasons": [
+        "NAC posture enforcement disabled on a VLAN",
+        "No automated expiry — relies on manual revert"
+      ],
+      "status": "deployed",
+      "diff": "+ vlan 412 posture.required = false (until 2026-06-05)"
+    },
+    {
+      "id": "chg-2026-05-22-008",
+      "timestamp": "2026-05-22T10:14:00.000Z",
+      "toolId": "fortinetAnalyzer",
+      "actor": "soc.lead/n.mitra",
+      "ticket": "CHG-44065",
+      "type": "log_retention_edit",
+      "summary": "Reduced analytics-tier retention from 180d → 90d to free disk",
+      "riskClass": "dangerous",
+      "riskReasons": [
+        "Retention floor below RBI CSF requirement (180d)",
+        "Existing 91-180d events pruned on next sweep",
+        "Audit evidence packs for May/Apr at risk"
+      ],
+      "status": "rolled_back",
+      "diff": "- retention.analytics.days = 180\n+ retention.analytics.days = 90"
+    },
+    {
+      "id": "chg-2026-05-22-001",
+      "timestamp": "2026-05-22T06:42:00.000Z",
+      "toolId": "trellix",
+      "actor": "endpoint.ops/v.chand",
+      "ticket": "CHG-44041",
+      "type": "encryption_policy_edit",
+      "summary": "Enabled silent decommission for tagged endpoints (lease-end pool)",
+      "riskClass": "risky",
+      "riskReasons": [
+        "Silent decommission skips recovery-key escrow verification",
+        "Operator must manually confirm escrow before decommission"
+      ],
+      "status": "pending_review",
+      "diff": "+ policy.decommission.silent = true (tag:lease-end-2026Q2)"
+    },
+    {
+      "id": "chg-2026-05-21-019",
+      "timestamp": "2026-05-21T22:10:00.000Z",
+      "toolId": "fortinetFw",
+      "actor": "net.ops/rajesh.k",
+      "ticket": "CHG-44012",
+      "type": "firewall_rule_modify",
+      "summary": "Reordered rules on DC-Edge-B — allow-all-out promoted above logging deny",
+      "riskClass": "dangerous",
+      "riskReasons": [
+        "Rule reorder promoted a broad allow above a logged deny",
+        "Will silently allow outbound flows that were previously flagged"
+      ],
+      "status": "rolled_back",
+      "diff": "- order: deny-suspicious-out (id 088) then allow-out-general (id 091)\n+ order: allow-out-general (id 091) then deny-suspicious-out (id 088)"
+    },
+    {
+      "id": "chg-2026-05-21-005",
+      "timestamp": "2026-05-21T11:08:00.000Z",
+      "toolId": "ddi",
+      "actor": "net.ops/asha.r",
+      "ticket": "CHG-43990",
+      "type": "dns_zone_edit",
+      "summary": "Added split-horizon record for internal-api.example.com",
+      "riskClass": "safe",
+      "riskReasons": [],
+      "status": "deployed",
+      "diff": "+ A internal-api.example.com 10.40.5.12 (view:internal)"
+    }
+  ]
+}
