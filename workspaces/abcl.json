@@ -1,0 +1,26 @@
+{
+  "id": "abcl",
+  "name": "Aditya Birla Capital Limited",
+  "shortName": "ABCL",
+  "logoSlot": "/images/workspace-abcl.svg",
+  "watermark": "DEMO DATA — NOT PRODUCTION",
+  "denominators": {
+    "users": 52257,
+    "endpoints": 33000,
+    "servers": 3000,
+    "fqdn": 800
+  },
+  "freshnessSloHours": {
+    "endpoint": 24,
+    "application": 12,
+    "network": 12,
+    "data": 12,
+    "identity": 6
+  },
+  "snapshotRetentionDays": 90,
+  "files": {
+    "tools": "workspaces/abcl/tools.json",
+    "frameworks": "workspaces/abcl/frameworks.json",
+    "assets": "workspaces/abcl/assets.json"
+  }
+}

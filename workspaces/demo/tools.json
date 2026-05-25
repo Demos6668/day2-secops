@@ -1,0 +1,68 @@
+{
+  "tools": [
+    {
+      "id": "demoMfa",
+      "severity": "Critical",
+      "tower": "Identity",
+      "solution": "Multi Factor Authentication",
+      "oem": "Okta",
+      "hosting": "SaaS",
+      "denominator": 5000,
+      "denominatorUnit": "users",
+      "mockProfile": "healthy",
+      "category": "identity-mfa"
+    },
+    {
+      "id": "demoWaf",
+      "severity": "Critical",
+      "tower": "Datacenter",
+      "solution": "Cloud WAF",
+      "oem": "Cloudflare",
+      "hosting": "SaaS",
+      "denominator": 80,
+      "denominatorUnit": "fqdn",
+      "mockProfile": "degraded",
+      "category": "waf"
+    },
+    {
+      "id": "demoEdr",
+      "severity": "Moderate",
+      "tower": "Endpoint",
+      "solution": "EDR",
+      "oem": "CrowdStrike",
+      "hosting": "SaaS",
+      "denominator": 3500,
+      "denominatorUnit": "endpoints",
+      "mockProfile": "healthy",
+      "category": "edr-hips"
+    },
+    {
+      "id": "demoDlp",
+      "severity": "Moderate",
+      "tower": "Endpoint",
+      "solution": "Data Loss Prevention",
+      "oem": "Symantec",
+      "hosting": "Private cloud",
+      "denominator": 3500,
+      "denominatorUnit": "endpoints",
+      "mockProfile": "stale",
+      "category": "dlp"
+    },
+    {
+      "id": "demoNac",
+      "severity": "Low",
+      "tower": "Endpoint",
+      "solution": "Network Access Control",
+      "oem": "Cisco ISE",
+      "hosting": "Physical",
+      "denominator": 3500,
+      "denominatorUnit": "endpoints",
+      "mockProfile": "flapping",
+      "category": "nac"
+    }
+  ],
+  "categoryRelations": [
+    { "from": "edr-hips", "to": "dlp", "kind": "adjacent", "label": "Endpoint protection adjacency" },
+    { "from": "nac", "to": "edr-hips", "kind": "adjacent", "label": "NAC + EDR posture check" }
+  ]
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Run abcl-secviz cleanup hourly
+Requires=abcl-secviz-cleanup.service
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1h
+Persistent=true
+Unit=abcl-secviz-cleanup.service
+
+[Install]
+WantedBy=timers.target

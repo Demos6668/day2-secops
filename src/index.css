@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* RAG (visibility health) — verified WCAG AA against #161B22, see RAG_MODEL.md */
+  --color-rag-green: var(--rag-green);
+  --color-rag-amber: var(--rag-amber);
+  --color-rag-red: var(--rag-red);
+}
+
+:root {
+  /* Inherited from day2.osint */
+  --primary-teal: #0095AF;
+  --accent-amber: #FFB74B;
+  --dark-navy: #1A2332;
+  --background-dark: #0D1117;
+  --background-card: #161B22;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8B949E;
+  --danger-red: #F85149;
+  --warning-yellow: #F0C000;
+  --success-green: #3FB950;
+
+  /* RAG palette (Phase 1 decision; V1 refresh demoted amber per research move #2).
+     Contrast against #161B22:
+       green #22C55E → 7.59:1 (AAA)
+       amber #B45309 → 4.55:1 (AA, desaturated — used to be #D97706)
+       red   #EF4444 → 4.60:1 (AA, kept full saturation as the only loud channel) */
+  --rag-green: #22C55E;
+  --rag-amber: #B45309;
+  --rag-red:   #EF4444;
+
+  /* Brighter text-band shades for chips/labels layered on alpha backgrounds. */
+  --rag-green-text: #4ADE80;
+  --rag-amber-text: #F59E0B;
+  --rag-red-text:   #F87171;
+
+  /* Day2 SecOps brand seal — teal primary + Day-2 orange accent. */
+  --brand-teal:        #0095AF;
+  --brand-teal-light:  #00B8D4;
+  --brand-orange:      #FF3C00;
+  --brand-orange-dim:  #FF6633;
+  --brand-stripe:      linear-gradient(90deg, #0095AF 0%, #00B8D4 45%, #FF6633 78%, #FF3C00 100%);
+
+  /* Density — set on body[data-density]. Comfortable is the default. */
+  --d-row-py:    10px;
+  --d-card-pad:  20px;
+  --d-tile-gap:  14px;
+  --d-base-font: 14px;
+
+  /* Surface elevation map (Linear-airy). */
+  --surface-raised: hsl(215 21% 13%);
+  --hairline:       rgba(255, 255, 255, 0.06);
+  --hairline-soft:  rgba(255, 255, 255, 0.04);
+
+  /* Dark mode base */
+  --background: 216 28% 7%;
+  --foreground: 0 0% 100%;
+
+  --card: 215 21% 11%;
+  --card-foreground: 0 0% 100%;
+
+  --popover: 215 21% 11%;
+  --popover-foreground: 0 0% 100%;
+
+  --primary: 189 75% 38%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 217 31% 15%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 217 31% 15%;
+  --muted-foreground: 212 10% 65%;
+
+  --accent: 36 100% 65%;
+  --accent-foreground: 216 28% 7%;
+
+  --destructive: 3 93% 63%;
+  --destructive-foreground: 0 0% 100%;
+
+  --warning: 48 100% 47%;
+  --warning-foreground: 216 28% 7%;
+
+  --success: 128 49% 49%;
+  --success-foreground: 0 0% 100%;
+
+  --border: 217 31% 20%;
+  --input: 217 31% 20%;
+  --ring: 189 100% 34%;
+
+  --radius: 0.75rem;
+}
+
+.light {
+  --background: 0 0% 98%;
+  --foreground: 217 31% 15%;
+  --card: 0 0% 100%;
+  --card-foreground: 217 31% 15%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 217 31% 15%;
+  --primary: 189 100% 34%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 20% 96%;
+  --secondary-foreground: 217 31% 15%;
+  --muted: 210 20% 96%;
+  --muted-foreground: 217 10% 45%;
+  --accent: 36 100% 50%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 3 93% 55%;
+  --destructive-foreground: 0 0% 100%;
+  --warning: 48 100% 40%;
+  --warning-foreground: 217 31% 15%;
+  --success: 128 49% 45%;
+  --success-foreground: 0 0% 100%;
+  --border: 214 20% 88%;
+  --input: 214 20% 88%;
+  --ring: 189 100% 34%;
+
+  /* Same RAG hexes — re-verify contrast against light card if light mode ships. */
+  --rag-green: #15803D;
+  --rag-amber: #B45309;
+  --rag-red:   #B91C1C;
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground antialiased
+           selection:bg-primary/30 selection:text-primary-foreground;
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+
+  /* V8 — Motion budget. Honor prefers-reduced-motion globally. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Density — applies token swaps based on body[data-density]. */
+body[data-density="compact"] {
+  --d-row-py:    6px;
+  --d-card-pad:  14px;
+  --d-tile-gap:  10px;
+  --d-base-font: 13px;
+}
+
+@layer utilities {
+  /* ── Brand signature ─────────────────────────────────── */
+  .brand-stripe {
+    height: 2px;
+    background: var(--brand-stripe);
+    border-radius: 1px;
+  }
+  .brand-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--brand-orange);
+    box-shadow: 0 0 0 2px rgba(255, 60, 0, 0.18);
+  }
+  .brand-glow {
+    background: radial-gradient(circle at 20% 0%, rgba(0,149,175,0.18) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(255,60,0,0.07) 0%, transparent 55%),
+                var(--background-card);
+  }
+
+  /* ── Hairlines (Linear-airy) ─────────────────────────── */
+  .hairline   { border-color: var(--hairline) !important; }
+  .hairline-b { border-bottom-color: var(--hairline) !important; }
+  .hairline-t { border-top-color: var(--hairline) !important; }
+
+  /* ── Severity left-stripe (research move #1) ─────────── */
+  .lstripe-red    { box-shadow: inset 2px 0 0 0 var(--rag-red); }
+  .lstripe-amber  { box-shadow: inset 2px 0 0 0 var(--rag-amber); }
+  .lstripe-green  { box-shadow: inset 2px 0 0 0 var(--rag-green); }
+  .lstripe-mute   { box-shadow: inset 2px 0 0 0 var(--hairline); }
+
+  /* ── Elevation system ────────────────────────────────── */
+  .surface-canvas   { background: var(--background-dark); }
+  .surface-card     { background: var(--background-card); }
+  .surface-elevated { background: var(--dark-navy); }
+  .surface-raised   { background: var(--surface-raised); }
+
+  .glass-panel {
+    background: var(--background-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0.75rem;
+    box-shadow:
+      0 1px 0 0 rgba(255,255,255,0.04) inset,
+      0 4px 24px 0 rgba(0,0,0,0.3);
+  }
+
+  .card-spec {
+    background: var(--background-card);
+    border: 1px solid rgba(0,149,175,0.15);
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+  .card-spec:hover {
+    border-color: rgba(0,149,175,0.35);
+    box-shadow: 0 4px 24px rgba(0,149,175,0.1);
+    filter: brightness(1.04);
+  }
+
+  /* ── Numeric / monospace display ─────────────────────── */
+  .text-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── RAG borders / accents (paired with icon + label per a11y rule) ── */
+  .rag-green { border-left: 4px solid var(--rag-green); }
+  .rag-amber { border-left: 4px solid var(--rag-amber); }
+  .rag-red   { border-left: 4px solid var(--rag-red); }
+
+  /* ── Accessibility: focus rings ──────────────────────── */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  :focus:not(:focus-visible) { outline: none; }
+
+  /* ── Wireframe mode (Phase 5) ────────────────────────── */
+  body.wireframe-mode {
+    filter: grayscale(0.9) contrast(0.85);
+  }
+  body.wireframe-mode :where(.card-spec, .glass-panel) {
+    border-style: dashed !important;
+    border-color: hsl(var(--border)) !important;
+    box-shadow: none !important;
+  }
+  body.wireframe-mode :where(button, a, input) {
+    border-style: dashed !important;
+  }
+}
+
+/* ── Print: clean, single-column "estate report" view ─── */
+@media print {
+  @page { size: A4; margin: 12mm; }
+
+  /* Hide chrome that doesn't belong on a printed page. */
+  body :where(aside, header, footer, nav, .recharts-tooltip-wrapper) { display: none !important; }
+  /* Drop the fixed sidebar offset. */
+  main, main > div { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .glass-panel, .card-spec {
+    background: #ffffff !important;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+  /* Force grids to single column so each pillar gets a clean page region. */
+  .grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  /* Drop the supervisor watermark to the bottom of the printed page only once. */
+  .demo-watermark-print {
+    position: fixed;
+    bottom: 6mm;
+    right: 6mm;
+  }
+  /* Recharts area fills tend to print as solid black — make them readable. */
+  svg .recharts-area path { fill-opacity: 0.15 !important; }
+}

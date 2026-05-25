@@ -1,0 +1,13 @@
+{
+  "totals": {
+    "users": 52257,
+    "endpoints": 33000,
+    "servers": 3000,
+    "fqdn": 800,
+    "branches": 1200
+  },
+  "notes": [
+    "All numbers are demo seeds.",
+    "Endpoints + servers are tracked in CMDB; users are HR + AD synced."
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "frameworks": [
+    {
+      "id": "iso27001-2022",
+      "name": "ISO/IEC 27001:2022",
+      "shortName": "ISO 27001",
+      "controls": [
+        { "id": "A.5.9", "title": "Inventory of information and other associated assets", "anchorTools": ["mfa", "pam", "sentinelOne", "trellix", "forcepoint", "forescout"] },
+        { "id": "A.5.15", "title": "Access control", "anchorTools": ["mfa", "pam"] },
+        { "id": "A.8.1", "title": "User endpoint devices", "anchorTools": ["sentinelOne", "trellix", "forcepoint", "forescout", "trendHips"] },
+        { "id": "A.8.7", "title": "Protection against malware", "anchorTools": ["sentinelOne", "trendHips"] },
+        { "id": "A.8.22", "title": "Segregation of networks", "anchorTools": ["guardicore", "forescout", "fortinetFw", "fortinetSdwan"] },
+        { "id": "A.8.23", "title": "Web filtering / WAF", "anchorTools": ["appTrana", "impervaWaf"] },
+        { "id": "A.8.24", "title": "Use of cryptography (data at rest)", "anchorTools": ["trellix"] },
+        { "id": "A.8.10", "title": "Information deletion / DLP", "anchorTools": ["forcepoint"] }
+      ]
+    },
+    {
+      "id": "nist-csf-2.0",
+      "name": "NIST CSF 2.0",
+      "shortName": "NIST CSF",
+      "controls": [
+        { "id": "ID.AM-01", "title": "Hardware inventory", "anchorTools": ["forescout", "sentinelOne", "trellix"] },
+        { "id": "ID.AM-02", "title": "Software inventory", "anchorTools": ["sentinelOne", "trendHips"] },
+        { "id": "PR.AA-01", "title": "Identities and credentials are managed", "anchorTools": ["mfa", "pam"] },
+        { "id": "PR.AA-05", "title": "Access permissions are managed", "anchorTools": ["pam"] },
+        { "id": "PR.IR-01", "title": "Network segmentation", "anchorTools": ["guardicore", "forescout", "fortinetFw", "fortinetSdwan"] },
+        { "id": "PR.DS-01", "title": "Data-at-rest protection", "anchorTools": ["trellix"] },
+        { "id": "PR.DS-02", "title": "Data-in-transit / DLP", "anchorTools": ["forcepoint", "sftp"] },
+        { "id": "DE.CM-01", "title": "Network monitoring (WAF/IPS)", "anchorTools": ["appTrana", "impervaWaf", "trendHips", "fortinetAnalyzer"] }
+      ]
+    },
+    {
+      "id": "cis-v8.1",
+      "name": "CIS Controls v8.1",
+      "shortName": "CIS v8.1",
+      "controls": [
+        { "id": "CIS-1", "title": "Inventory and Control of Enterprise Assets", "anchorTools": ["forescout", "sentinelOne", "trellix"] },
+        { "id": "CIS-2", "title": "Inventory and Control of Software Assets", "anchorTools": ["sentinelOne"] },
+        { "id": "CIS-3", "title": "Data Protection", "anchorTools": ["trellix", "forcepoint", "sftp"] },
+        { "id": "CIS-5", "title": "Account Management", "anchorTools": ["pam"] },
+        { "id": "CIS-6", "title": "Access Control Management", "anchorTools": ["mfa", "pam"] },
+        { "id": "CIS-10", "title": "Malware Defenses", "anchorTools": ["sentinelOne", "trendHips"] },
+        { "id": "CIS-12", "title": "Network Infrastructure Management", "anchorTools": ["ddi", "guardicore", "forescout", "fortinetFw", "fortinetMgr", "fortinetSdwan"] },
+        { "id": "CIS-13", "title": "Network Monitoring and Defense", "anchorTools": ["appTrana", "impervaWaf", "fortinetAnalyzer"] }
+      ]
+    },
+    {
+      "id": "rbi-csf",
+      "name": "RBI Cyber Security Framework",
+      "shortName": "RBI CSF",
+      "controls": [
+        { "id": "RBI-1", "title": "Inventory Management of Business IT Assets", "anchorTools": ["forescout", "sentinelOne"] },
+        { "id": "RBI-3", "title": "Network Management and Security", "anchorTools": ["ddi", "guardicore", "forescout", "fortinetFw", "fortinetMgr", "fortinetSdwan"] },
+        { "id": "RBI-4", "title": "Secure Configuration", "anchorTools": ["trendHips", "trellix"] },
+        { "id": "RBI-5", "title": "Application Security", "anchorTools": ["appTrana", "impervaWaf"] },
+        { "id": "RBI-7", "title": "User Access Control / Management", "anchorTools": ["mfa", "pam"] },
+        { "id": "RBI-9", "title": "Data Leak Prevention", "anchorTools": ["forcepoint", "sftp"] },
+        { "id": "RBI-10", "title": "Maintenance, Monitoring & Analysis", "anchorTools": ["sentinelOne", "trendHips", "fortinetAnalyzer"] }
+      ]
+    },
+    {
+      "id": "sebi-cscrf",
+      "name": "SEBI CSCRF",
+      "shortName": "SEBI CSCRF",
+      "controls": [
+        { "id": "GV.RM", "title": "Governance — Risk Management", "anchorTools": [] },
+        { "id": "ID.AM", "title": "Asset Management", "anchorTools": ["forescout", "sentinelOne", "trellix"] },
+        { "id": "PR.AC", "title": "Access Control", "anchorTools": ["mfa", "pam"] },
+        { "id": "PR.DS", "title": "Data Security", "anchorTools": ["trellix", "forcepoint", "sftp"] },
+        { "id": "PR.IP", "title": "Information Protection Processes", "anchorTools": ["guardicore"] },
+        { "id": "DE.CM", "title": "Security Continuous Monitoring", "anchorTools": ["appTrana", "impervaWaf", "trendHips", "fortinetAnalyzer"] }
+      ]
+    }
+  ]
+}

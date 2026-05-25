@@ -1,0 +1,29 @@
+node_modules
+dist
+build
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+.vite
+coverage
+.tsbuildinfo
+.idea
+.vscode
+!.vscode/extensions.json
+
+# Supervisor runtime state — local-only.
+var/
+server/data/
+server/*.sqlite
+server/*.sqlite-*
+**/.cache/
+
+# Playwright artifacts.
+playwright-report/
+test-results/
+tests/e2e/__screenshots__/
+
+# Auto-sync helper local override (never commit token paths).
+.auto-sync.local

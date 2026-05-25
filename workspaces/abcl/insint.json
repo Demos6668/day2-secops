@@ -1,0 +1,58 @@
+{
+  "sources": [
+    {
+      "id": "nessus-pro",
+      "name": "Tenable Nessus",
+      "kind": "scanner",
+      "lastScan": "2026-05-23T22:14:00.000Z",
+      "scope": "All datacenter + branch endpoints",
+      "hostsScanned": 33180,
+      "findings": { "critical": 47, "high": 312, "medium": 1284, "low": 2611, "info": 4892 }
+    },
+    {
+      "id": "custom-agent",
+      "name": "Day2 Custom Agent",
+      "kind": "agent",
+      "lastScan": "2026-05-23T23:50:00.000Z",
+      "scope": "Endpoints with Day2 agent installed (subset)",
+      "hostsScanned": 27420,
+      "findings": { "critical": 12, "high": 88, "medium": 401, "low": 902, "info": 1377 }
+    },
+    {
+      "id": "openvas",
+      "name": "OpenVAS (data-center segment)",
+      "kind": "scanner",
+      "lastScan": "2026-05-22T18:00:00.000Z",
+      "scope": "Server segment only (3,000 servers)",
+      "hostsScanned": 3000,
+      "findings": { "critical": 5, "high": 31, "medium": 142, "low": 388, "info": 0 }
+    },
+    {
+      "id": "fortianalyzer",
+      "name": "FortiAnalyzer VM (network appliances)",
+      "kind": "analyzer",
+      "lastScan": "2026-05-24T02:30:00.000Z",
+      "scope": "Fortinet estate — NGFW pairs, SD-WAN edges, FortiManager",
+      "hostsScanned": 29,
+      "findings": { "critical": 1, "high": 6, "medium": 18, "low": 41, "info": 112 }
+    }
+  ],
+  "topCves": [
+    { "cve": "CVE-2025-12345", "title": "Log4j 2.x RCE drift in legacy app", "severity": "Critical", "affectedHosts": 14 },
+    { "cve": "CVE-2025-11211", "title": "OpenSSL 3.0 X.509 buffer overflow", "severity": "Critical", "affectedHosts": 33 },
+    { "cve": "CVE-2024-49920", "title": "MS Exchange RCE — backport missing", "severity": "Critical", "affectedHosts": 8 },
+    { "cve": "CVE-2025-04001", "title": "Linux kernel use-after-free", "severity": "High", "affectedHosts": 96 },
+    { "cve": "CVE-2025-22118", "title": "VMware Tools privilege escalation", "severity": "High", "affectedHosts": 412 },
+    { "cve": "CVE-2025-30050", "title": "OpenSSH 9.6 race condition", "severity": "High", "affectedHosts": 87 },
+    { "cve": "CVE-2024-99887", "title": "BIND 9 cache poisoning", "severity": "Medium", "affectedHosts": 21 },
+    { "cve": "CVE-2025-44102", "title": "FortiOS SSL-VPN heap overflow — branch SD-WAN edges", "severity": "Critical", "affectedHosts": 4 },
+    { "cve": "CVE-2025-44217", "title": "FortiManager XML external entity (XXE) in policy import", "severity": "High", "affectedHosts": 1 },
+    { "cve": "CVE-2025-44319", "title": "FortiAnalyzer privilege escalation via report template", "severity": "Medium", "affectedHosts": 1 }
+  ],
+  "agentGroups": [
+    { "name": "DC Servers", "hostCount": 3000, "compliancePct": 96.4, "lastSync": "2026-05-23T23:00:00.000Z" },
+    { "name": "Branch endpoints", "hostCount": 17700, "compliancePct": 88.1, "lastSync": "2026-05-23T22:45:00.000Z" },
+    { "name": "Roaming users", "hostCount": 6720, "compliancePct": 79.2, "lastSync": "2026-05-23T20:10:00.000Z" },
+    { "name": "Fortinet network plane (NGFW + SD-WAN + FMG/FAZ)", "hostCount": 29, "compliancePct": 93.7, "lastSync": "2026-05-24T02:30:00.000Z" }
+  ]
+}

@@ -1,0 +1,23 @@
+[Unit]
+Description=abcl-secviz dev server supervisor (with health-check + cleanup)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/abcl-secviz
+ExecStart=/home/osboxes/.local/bin/node %h/abcl-secviz/scripts/stack-supervisor.mjs
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+KillSignal=SIGTERM
+# pnpm + node on PATH for spawned children
+Environment=PATH=%h/.local/share/pnpm:%h/.local/node/node-v20.19.5-linux-x64/bin:%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=NODE_ENV=development
+Environment=ABCL_SECVIZ_FRONTEND_PORT=5174
+Environment=ABCL_SECVIZ_FRONTEND_MODE=dev
+StandardOutput=append:%h/abcl-secviz/var/log/systemd-stdout.log
+StandardError=append:%h/abcl-secviz/var/log/systemd-stderr.log
+
+[Install]
+WantedBy=default.target

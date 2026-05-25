@@ -1,0 +1,9 @@
+[Unit]
+Description=abcl-secviz periodic temp/cache cleanup (one-shot)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/abcl-secviz
+ExecStart=/home/osboxes/.local/bin/node %h/abcl-secviz/scripts/cleanup-temp.mjs
+StandardOutput=append:%h/abcl-secviz/var/log/cleanup.log
+StandardError=append:%h/abcl-secviz/var/log/cleanup.log
