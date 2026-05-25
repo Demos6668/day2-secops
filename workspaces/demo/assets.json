@@ -1,9 +1,0 @@
-{
-  "totals": {
-    "users": 5000,
-    "endpoints": 3500,
-    "servers": 250,
-    "fqdn": 80
-  },
-  "notes": ["Lightweight demo workspace for product walkthroughs."]
-}

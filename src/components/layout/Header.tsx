@@ -3,7 +3,6 @@ import { Search, Moon, Sun, Command, Printer, Box, Rows3, Rows4 } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { DemoWatermark } from "@/components/Common/DemoWatermark";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { useWireframeMode } from "@/hooks/useWireframeMode";
 import { useDensity } from "@/hooks/useDensity";
@@ -53,8 +52,6 @@ export function Header({ workspaceName }: HeaderProps) {
           <Command className="h-3 w-3" />K
         </Kbd>
       </button>
-
-      <DemoWatermark className="hidden xl:inline-flex" />
 
       <NotificationCenter />
 

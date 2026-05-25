@@ -3,7 +3,6 @@
   "name": "Aditya Birla Capital Limited",
   "shortName": "ABCL",
   "logoSlot": "/images/workspace-abcl.svg",
-  "watermark": "DEMO DATA — NOT PRODUCTION",
   "denominators": {
     "users": 52257,
     "endpoints": 33000,
