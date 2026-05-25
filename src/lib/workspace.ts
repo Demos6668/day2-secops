@@ -20,20 +20,12 @@ import { useOverlaySeeds } from "@/lib/workspace-overlay";
 import abclConfigRaw from "../../workspaces/abcl.json";
 import abclToolsRaw from "../../workspaces/abcl/tools.json";
 import abclFrameworksRaw from "../../workspaces/abcl/frameworks.json";
-import demoConfigRaw from "../../workspaces/demo.json";
-import demoToolsRaw from "../../workspaces/demo/tools.json";
-import demoFrameworksRaw from "../../workspaces/demo/frameworks.json";
 
 const REGISTRY: Record<string, { config: unknown; tools: unknown; frameworks: unknown }> = {
   abcl: {
     config: abclConfigRaw,
     tools: abclToolsRaw,
     frameworks: abclFrameworksRaw,
-  },
-  demo: {
-    config: demoConfigRaw,
-    tools: demoToolsRaw,
-    frameworks: demoFrameworksRaw,
   },
 };
 

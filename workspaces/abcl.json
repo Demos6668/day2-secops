@@ -1,8 +1,8 @@
 {
   "id": "abcl",
-  "name": "Aditya Birla Capital Limited",
-  "shortName": "ABCL",
-  "logoSlot": "/images/workspace-abcl.svg",
+  "name": "Vodafone Idea Limited",
+  "shortName": "Vi",
+  "logoSlot": "/images/oems/vi.svg",
   "denominators": {
     "users": 52257,
     "endpoints": 33000,
