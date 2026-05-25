@@ -1,0 +1,330 @@
+{
+  "operations": [
+    {
+      "toolId": "mfa",
+      "collectionVectors": ["REST API", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Identity events API", "value": "/api/identity/v1/events", "kind": "API" },
+        { "label": "MFA enrollment audit", "value": "/api/identity/v1/users?factors=0", "kind": "API" },
+        { "label": "Risk-signal stream", "value": "syslog: facility=auth, app=cyberark-identity", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "MFA push-channel delivery failure > 5% in 5 min OR factor-not-enrolled count grows > 10% week-over-week.",
+      "dailyChangePoints": [
+        "Onboarding new identity providers (SAML/OIDC application registration)",
+        "Updating risk-signal rule weights (geofence, impossible-travel)",
+        "Promoting FIDO2 / push factors for new groups",
+        "Rotating SCIM provisioning credentials"
+      ]
+    },
+    {
+      "toolId": "pam",
+      "collectionVectors": ["REST API", "File-tail"],
+      "telemetryEndpoints": [
+        { "label": "Vault Engine log", "value": "/var/log/cyberark/ITA.log", "kind": "Log" },
+        { "label": "DB replication error", "value": "log id ITADB399W", "kind": "Log" },
+        { "label": "CPM rotation status", "value": "/PasswordVault/API/CPM/Failures", "kind": "API" },
+        { "label": "PSM session events", "value": "/PasswordVault/API/Sessions/Failed", "kind": "API" }
+      ],
+      "criticalAlertThreshold": "Primary↔DR Vault replication error in ITA.log OR > 3 PSM session failures in 15 min.",
+      "dailyChangePoints": [
+        "Creating Safe partitions and mapping AD group permissions",
+        "Onboarding new privileged target hosts (Windows / Linux / DB)",
+        "Defining password rotation windows + CPM policy assignments",
+        "Reviewing and approving JIT checkout extensions"
+      ]
+    },
+    {
+      "toolId": "appTrana",
+      "collectionVectors": ["REST API", "Webhook"],
+      "telemetryEndpoints": [
+        { "label": "Site health", "value": "GET /api/v1/sites/{id}/status", "kind": "API" },
+        { "label": "WAAP block events", "value": "webhook https://secops/visibility/appTrana", "kind": "API" },
+        { "label": "DAST scan results", "value": "GET /api/v1/scans/latest", "kind": "API" }
+      ],
+      "criticalAlertThreshold": "Site moved from block → monitor without a CR ticket OR DAST scan failure on a Critical-tier site.",
+      "dailyChangePoints": [
+        "Onboarding new FQDNs to WAAP policy",
+        "Tuning SQLi / XSS exception lists for web banking flows",
+        "Scheduling weekly DAST scans + reviewing findings",
+        "Renewing origin SSL certificates"
+      ]
+    },
+    {
+      "toolId": "impervaWaf",
+      "collectionVectors": ["REST API", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Cluster status API", "value": "GET /api/v1/cluster/health", "kind": "API" },
+        { "label": "Gateway nodes", "value": "GET /api/v1/gateways", "kind": "API" },
+        { "label": "Policy compile error", "value": "syslog: facility=local0, severity=error, msg=policy_compile_error", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "Cluster replication lag > 30s OR > 1% policy compilation error rate OR gateway disconnected.",
+      "dailyChangePoints": [
+        "Managing SSL / TLS cert deployments per virtual site",
+        "Tuning false-positive blocks (SQLi / XSS exception tuning)",
+        "Staging policy bundles ahead of app releases",
+        "Onboarding new virtual sites to the WAAP cluster"
+      ]
+    },
+    {
+      "toolId": "trendHips",
+      "collectionVectors": ["Agent", "REST API", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Computers API", "value": "GET /rest/computers", "kind": "API" },
+        { "label": "Policy version drift", "value": "GET /rest/policies/{id}/agents?stale=true", "kind": "API" },
+        { "label": "Comm-break alert", "value": "syslog: msg=communication_breakdown_db_engine", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "Communication-breakdown alert from a manager node OR > 5% of agents on a policy version > 7 days old.",
+      "dailyChangePoints": [
+        "Adjusting local IPS rules on legacy operating systems",
+        "Updating server policy matrices for new asset groups",
+        "Scheduling scan intervals + maintenance windows",
+        "Approving anti-tamper exception requests"
+      ]
+    },
+    {
+      "toolId": "sftp",
+      "collectionVectors": ["Windows Event Log", "REST API"],
+      "telemetryEndpoints": [
+        { "label": "Server status COM API", "value": "EFT.COM.Server.GetStatus", "kind": "API" },
+        { "label": "Folder event monitors", "value": "/api/v1/events?type=folder", "kind": "API" },
+        { "label": "Disk consumption", "value": "Windows perfcounter: LogicalDisk(_Total)\\% Free Space", "kind": "Metric" }
+      ],
+      "criticalAlertThreshold": "SFTP listener down OR outbound transfer pipeline blocked OR partner cert expiring < 7 days.",
+      "dailyChangePoints": [
+        "Onboarding external financial vendor accounts",
+        "Building automated routing workflows + SLAs",
+        "Configuring folder access controls and triggers",
+        "Rotating SSH / PGP partner keys"
+      ]
+    },
+    {
+      "toolId": "ddi",
+      "collectionVectors": ["SNMPv3", "REST API"],
+      "telemetryEndpoints": [
+        { "label": "TCPWAVE A queries", "value": "OID tcpwaveAQueries", "kind": "OID" },
+        { "label": "TCPWAVE AAAA queries", "value": "OID tcpwaveAAAAQueries", "kind": "OID" },
+        { "label": "DHCP DISCOVER packets", "value": "OID tcpwaveDHCPDISCOVERPackets", "kind": "OID" },
+        { "label": "Scope utilization", "value": "GET /api/dhcp/scopes/utilization", "kind": "API" }
+      ],
+      "criticalAlertThreshold": "Subnet pool allocation > 85% OR zone-transfer failure on a master OR anycast resolver fails healthcheck.",
+      "dailyChangePoints": [
+        "Reserving IPs for network expansions",
+        "Building DNS A / CNAME / TXT zone mappings",
+        "Setting DHCP scope parameters for new branches",
+        "Reconciling IPAM drift against CMDB"
+      ]
+    },
+    {
+      "toolId": "trellix",
+      "collectionVectors": ["Database", "REST API"],
+      "telemetryEndpoints": [
+        { "label": "ePO agent connectivity", "value": "ePO DB: AgentChecksIn view", "kind": "Metric" },
+        { "label": "AMCore signature age", "value": "ePO API /core/products/AMCore/signature_age", "kind": "API" },
+        { "label": "Recovery key escrow", "value": "ePO API /encryption/recovery_keys?missing=true", "kind": "API" }
+      ],
+      "criticalAlertThreshold": "AMCore signature definitions > 24 h out of date on any active endpoint OR recovery key missing on > 0.1% of fleet.",
+      "dailyChangePoints": [
+        "Configuring local folder exclusion trees",
+        "Tuning file-integrity monitoring parameters",
+        "Managing ePO repository update source mirrors",
+        "Approving silent decommission policies"
+      ]
+    },
+    {
+      "toolId": "forcepoint",
+      "collectionVectors": ["REST API", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Endpoint connectivity", "value": "GET /security-manager/api/endpoints/status", "kind": "API" },
+        { "label": "Classifier deploy status", "value": "GET /security-manager/api/classifiers/last-deploy", "kind": "API" },
+        { "label": "Outbound block events", "value": "syslog: app=forcepoint-dlp, severity=block", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "Outbound pipeline transfer blockage errors OR classifier deploy failure rate > 1% OR endpoint client_uninstalled > 0.5% week-over-week.",
+      "dailyChangePoints": [
+        "Tuning DLP classifier rule weights",
+        "Approving partner-domain whitelists",
+        "Reviewing block-event false positives",
+        "Rolling out endpoint client upgrades"
+      ]
+    },
+    {
+      "toolId": "sentinelOne",
+      "collectionVectors": ["REST API"],
+      "telemetryEndpoints": [
+        { "label": "Agent inventory", "value": "GET /api/v2.1/agents", "kind": "API" },
+        { "label": "Software version drift", "value": "GET /api/v2.1/agents?osVersion=outdated", "kind": "API" },
+        { "label": "Tamper protection trips", "value": "GET /api/v2.1/threats?type=tamper-protection-triggered", "kind": "API" }
+      ],
+      "criticalAlertThreshold": "Endpoint offline > 48 h on servers OR tamper-protection-triggered count > 5 in 1 h OR RFM endpoints > 0.1% of fleet.",
+      "dailyChangePoints": [
+        "Deploying agent upgrades across server pools",
+        "Adding hash / pathway exclusions for app false positives",
+        "Triaging tamper-protection events",
+        "Re-imaging endpoints flagged as RFM"
+      ]
+    },
+    {
+      "toolId": "guardicore",
+      "collectionVectors": ["REST API", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Agent heartbeat", "value": "GET /api/v3.0/agents/heartbeat", "kind": "API" },
+        { "label": "Akamai ULS aggregators", "value": "uls: aggregator-health stream", "kind": "Log" },
+        { "label": "Policy reconciliation", "value": "GET /api/v3.0/reveal/policy-diff", "kind": "API" }
+      ],
+      "criticalAlertThreshold": "Database VM enters Agent Disconnected state OR > 10 assets in policy_diverged status in last 24h.",
+      "dailyChangePoints": [
+        "Assigning Environment / Role / Application labels to new VMs",
+        "Creating microsegmentation policy rings",
+        "Reconciling drift between intent and effective policy",
+        "Approving new asset-to-asset flow exceptions"
+      ]
+    },
+    {
+      "toolId": "forescout",
+      "collectionVectors": ["SNMPv3", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "CounterACT MIB", "value": "OID forescoutAppliance.health", "kind": "OID" },
+        { "label": "Endpoints monitored", "value": "OID forescoutAppliance.endpointsActive", "kind": "OID" },
+        { "label": "Switch-ACL write error", "value": "syslog: msg=Plugin Engine Error: Failed to write switch ACL", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "Switch-port write access validation failure OR appliance system load > 85% sustained 10 min.",
+      "dailyChangePoints": [
+        "Onboarding edge access switches via SNMP credentials",
+        "Defining hardware profiling rule criteria",
+        "Updating active VLAN structures",
+        "Reviewing classification orphans"
+      ]
+    },
+    {
+      "toolId": "fortinetFw",
+      "collectionVectors": ["SNMPv3", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Fortinet Core MIB", "value": "OID .1.3.6.1.4.1.12356", "kind": "OID" },
+        { "label": "VPN tunnel table", "value": "OID fnVpnTunnelTable", "kind": "OID" },
+        { "label": "HA failover log", "value": "syslog: logid=\"0100022001\"", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "CPU > 90% sustained 5 min OR VPN tunnel state down OR HA failover (logid 0100022001).",
+      "dailyChangePoints": [
+        "Configuring Virtual IPs (VIPs) for local NAT",
+        "Defining physical interface settings",
+        "Upgrading FortiOS firmware on rolling pairs",
+        "Adjusting interface firewall policies"
+      ]
+    },
+    {
+      "toolId": "fortinetSdwan",
+      "collectionVectors": ["SNMPv3", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Overlay health", "value": "OID fnSdwanOverlayHealth", "kind": "OID" },
+        { "label": "Performance SLA", "value": "OID fnSdwanPerformanceSla", "kind": "OID" },
+        { "label": "BFD flap log", "value": "syslog: logid=\"0103022002\"", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "BFD flap count > 5 in 15 min on a single overlay OR SLA breach > 30 min on prod overlay.",
+      "dailyChangePoints": [
+        "Adding branches to overlay templates",
+        "Tuning SLA targets per overlay class",
+        "Rolling out new performance SLA classes",
+        "Reviewing overlay health on hub-and-spoke topology"
+      ]
+    },
+    {
+      "toolId": "fortinetMgr",
+      "collectionVectors": ["REST API", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "ADOM sync status", "value": "GET /api/v2/cmdb/system/sync-status", "kind": "API" },
+        { "label": "Device manager", "value": "GET /api/v2/dvmdb/device", "kind": "API" },
+        { "label": "Install history", "value": "GET /api/v2/securityconsole/install/history", "kind": "API" }
+      ],
+      "criticalAlertThreshold": "Policy install to a managed gateway fails OR ADOM sync error count > 0 in last hour.",
+      "dailyChangePoints": [
+        "Publishing policy revisions to managed FortiGates",
+        "Bringing new FortiGates under management",
+        "ADOM migrations between DC pairs",
+        "Reviewing install-history failures"
+      ]
+    },
+    {
+      "toolId": "fortinetAnalyzer",
+      "collectionVectors": ["REST API", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Log receive rate", "value": "GET /api/v2/monitor/log/receive-rate", "kind": "API" },
+        { "label": "Storage utilization", "value": "GET /api/v2/monitor/system/storage", "kind": "API" },
+        { "label": "Retention floor", "value": "GET /api/v2/cli/global/log-settings", "kind": "API" }
+      ],
+      "criticalAlertThreshold": "Disk > 85% OR retention floor reduced below compliance minimum (RBI = 180d) OR syslog drop spike > 1k/min.",
+      "dailyChangePoints": [
+        "Building log forwarding profiles",
+        "Tuning storage tiers between analytics + archive",
+        "Reviewing report-template execution failures",
+        "Adjusting alert escalation rules"
+      ]
+    },
+    {
+      "toolId": "paloAltoSase",
+      "collectionVectors": ["REST API", "SNMPv3", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Prisma Access status", "value": "GET /infra/v1/status", "kind": "API" },
+        { "label": "SASE node tunnel health", "value": "GET /infra/v1/nodes/{id}/tunnels", "kind": "API" },
+        { "label": "HA state change", "value": "syslog: msg=ha_state_change", "kind": "Log" },
+        { "label": "Memory utilization (edge)", "value": "SNMPv3 panEntityMemoryUtil", "kind": "OID" }
+      ],
+      "criticalAlertThreshold": "API connection timeout to Prisma Access OR HA state change on physical edge OR > 1 SASE node tunnel unhealthy.",
+      "dailyChangePoints": [
+        "Onboarding remote users to SASE gateways",
+        "Modifying routing templates per region",
+        "Updating URL filtering profile lists",
+        "Creating edge security policy access rules"
+      ]
+    },
+    {
+      "toolId": "f5Bigip",
+      "collectionVectors": ["SNMPv3", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "F5 System MIB", "value": "OID .1.3.6.1.4.1.3375", "kind": "OID" },
+        { "label": "Pool member status", "value": "OID ltmPoolMemberStatusAvailState", "kind": "OID" },
+        { "label": "SSL chip utilization", "value": "OID sysGlobalHwSslStat", "kind": "OID" },
+        { "label": "Node DOWN log", "value": "syslog: msg=Local/mcpd Error: Node state changed to DOWN", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "Pool member down inside a Core App OR SSL chip > 80% sustained 10 min OR mcpd node DOWN log.",
+      "dailyChangePoints": [
+        "Onboarding new app farms into pools",
+        "Configuring custom HTTP iRules",
+        "Adjusting persistence cookies / session affinity",
+        "Building Virtual Servers (VIPs)"
+      ]
+    },
+    {
+      "toolId": "radwareDdos",
+      "collectionVectors": ["SNMPv3", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "DefensePro MIB", "value": "OID rwDefenseProMib", "kind": "OID" },
+        { "label": "Packet drops", "value": "OID rwDpMitigationPacketDrops", "kind": "OID" },
+        { "label": "Attack started", "value": "syslog: msg=Attack started", "kind": "Log" },
+        { "label": "Hardware bypass", "value": "syslog: msg=bypass_self_test_failed", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "Mitigation engine packet-drop anomalies (> 3σ) OR hardware-bypass self-test failure.",
+      "dailyChangePoints": [
+        "Tuning mitigation rules ahead of high-traffic windows",
+        "Whitelist modifications for trading-partner subnets",
+        "Reviewing attack-start logs + shield profiles",
+        "Coordinating BGP-FlowSpec with upstream carriers"
+      ]
+    },
+    {
+      "toolId": "checkpointSms",
+      "collectionVectors": ["SNMPv3", "Syslog"],
+      "telemetryEndpoints": [
+        { "label": "Check Point MIB", "value": "OID .1.3.6.1.4.1.2620", "kind": "OID" },
+        { "label": "Smart-1 controller status", "value": "OID checkPointStatSmartCenterStatus", "kind": "OID" },
+        { "label": "Policy install validation", "value": "OID checkPointStatPolicyInstallStat", "kind": "OID" },
+        { "label": "cpd / fwd crash", "value": "syslog: msg=Process cpd terminated OR Process fwd terminated", "kind": "Log" }
+      ],
+      "criticalAlertThreshold": "Daemon processes (cpd / fwd) missing from process table OR sandbox processing queue > 80%.",
+      "dailyChangePoints": [
+        "Building explicit firewall object configurations",
+        "Publishing and installing access-control policies to distributed gateways",
+        "Managing IPS profile classifications",
+        "Configuring threat-emulation sandbox exclusions"
+      ]
+    }
+  ]
+}

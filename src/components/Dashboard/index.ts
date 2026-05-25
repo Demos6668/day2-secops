@@ -4,6 +4,7 @@ export { CoverageRing } from "./CoverageRing";
 export { DashboardFiltersBar } from "./DashboardFilters";
 export { EstateAtRisk } from "./EstateAtRisk";
 export { LossReasonChips } from "./LossReasonChips";
+export { OperationsPanel, operationsFor } from "./OperationsPanel";
 export { OemSmallMultiples } from "./OemSmallMultiples";
 export { ScoreBreakdown } from "./ScoreBreakdown";
 export { ScoreBreakdownDrawer } from "./ScoreBreakdownDrawer";

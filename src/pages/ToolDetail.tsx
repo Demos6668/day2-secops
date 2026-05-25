@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/shared";
 import { Badge } from "@/components/ui/badge";
 import { OemMark } from "@/components/Brand";
-import { LossReasonChips } from "@/components/Dashboard";
+import { LossReasonChips, OperationsPanel } from "@/components/Dashboard";
 import { ScoreBreakdown } from "@/components/Dashboard/ScoreBreakdown";
 import { reasonsForOem } from "@/lib/feeder/seed";
 import { ToolDashboard } from "@/components/ToolDashboard";
@@ -105,6 +105,8 @@ export default function ToolDetail() {
           </CardContent>
         </Card>
       )}
+
+      <OperationsPanel toolId={tool.id} oem={tool.oem} />
 
       {/* Hero strip: brand mark + visibility + RAG */}
       <Card className="glass-panel">
