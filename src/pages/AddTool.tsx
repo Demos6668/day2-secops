@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 
 type Draft = Partial<ToolSeed> & { webhookUrl?: string };
 
-const STEPS = ["Identity", "Severity", "OEM", "Hosting", "Denominator", "Mock + webhook"] as const;
+const STEPS = ["Identity", "Severity", "OEM", "Hosting", "Denominator", "Profile + webhook"] as const;
 type StepName = (typeof STEPS)[number];
 
 const TOWER_OPTIONS: Tower[] = [
@@ -55,7 +55,7 @@ export default function AddTool() {
         return Boolean(draft.hosting);
       case "Denominator":
         return typeof draft.denominator === "number" && draft.denominator > 0;
-      case "Mock + webhook":
+      case "Profile + webhook":
         return Boolean(draft.mockProfile);
     }
   };
@@ -87,7 +87,7 @@ export default function AddTool() {
       <PageHeader
         title="Add Tool"
         icon={Plus}
-        description="Plug-and-play wizard. The new tool surfaces on the dashboard immediately. Persists to your browser overlay (Phase-real writes to tools.json)."
+        description="Plug-and-play wizard. The new tool surfaces on the dashboard immediately and is persisted to the workspace overlay."
         actions={
           <Button asChild variant="ghost" size="sm">
             <Link href="/">
@@ -220,7 +220,7 @@ export default function AddTool() {
 
           {step === 5 && (
             <div className="space-y-3">
-              <Field label="Mock profile">
+              <Field label="Visibility profile">
                 <RadioGroup
                   value={draft.mockProfile ?? "healthy"}
                   onValueChange={(v) => set("mockProfile", v as MockProfile)}
@@ -231,7 +231,7 @@ export default function AddTool() {
                   ))}
                 </RadioGroup>
               </Field>
-              <Field label="Optional webhook URL (Phase-real)">
+              <Field label="Webhook URL (optional)">
                 <Input
                   value={draft.webhookUrl ?? ""}
                   onChange={(e) => setDraft((prev) => ({ ...prev, webhookUrl: e.target.value }))}
@@ -240,7 +240,7 @@ export default function AddTool() {
                 />
                 <p className="text-[10px] text-muted-foreground mt-1">
                   <Webhook className="inline h-3 w-3 mr-1" />
-                  Stored only for documentation in v1. Real webhook listener wires in Phase-real.
+                  Inbound HMAC-signed visibility events arrive on this endpoint.
                 </p>
               </Field>
             </div>
