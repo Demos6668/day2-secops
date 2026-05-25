@@ -106,7 +106,10 @@ export function RiskyChangesTimeline({ tools }: RiskyChangesTimelineProps) {
       <CardContent className="p-4 space-y-3">
         <header className="flex items-baseline justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <ShieldAlert className="h-3.5 w-3.5 text-[#B91C1C] dark:text-[#F87171]" aria-hidden="true" />
+            <ShieldAlert
+              className="h-3.5 w-3.5 text-[#B91C1C] dark:text-[#F87171]"
+              aria-hidden="true"
+            />
             <h3 className="text-sm font-semibold">Risky changes</h3>
             <div className="flex items-center gap-1.5 ml-2">
               <Badge variant="outline" className={cn("text-[10px] font-mono", RISK_TONE.dangerous)}>
