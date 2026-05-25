@@ -208,9 +208,6 @@ export function ScoreBreakdown({ tool, freshnessSloHours, className }: ScoreBrea
             Add audit note
           </Button>
         </div>
-        <p className="text-[10px] text-muted-foreground italic">
-          External link wiring + evidence locker land in Phase 4.
-        </p>
       </section>
     </div>
   );

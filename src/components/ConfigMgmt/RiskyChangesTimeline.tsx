@@ -24,7 +24,6 @@ import { OemMark } from "@/components/Brand";
 import { cn, formatRelative } from "@/lib/utils";
 import {
   ConfigChangesFileSchema,
-  type ConfigChange,
   type ConfigChangeRisk,
   type ConfigChangeStatus,
 } from "@/types/config-changes";

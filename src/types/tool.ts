@@ -57,7 +57,7 @@ export const ToolSchema = ToolSeedSchema.extend({
   lastSync: z.string().datetime(),
   causes: z.array(VisibilityCauseFlagSchema),
   /** OEM-native loss-reason codes (resolved against the workspace's reason catalog). */
-  activeLossReasons: z.array(z.string()).default([]),
+  activeLossReasons: z.array(z.string()).optional(),
   status: RagStatusSchema,
   score: z.number(),
 });

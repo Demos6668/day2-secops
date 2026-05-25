@@ -53,10 +53,6 @@ export function WorkspaceSelector({ current, workspaces, onChange }: WorkspaceSe
             ))}
           </>
         )}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem disabled className="text-[11px] text-muted-foreground">
-          Add workspace (Phase 4)
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
