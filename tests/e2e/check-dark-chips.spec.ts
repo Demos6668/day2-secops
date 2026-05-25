@@ -1,45 +1,54 @@
 import { test } from '@playwright/test';
-test('probe dark mode severity chip colors on real elements', async ({ page }) => {
+test('inspect CSS rules for dark:text-[#F87171]', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('abcl-secviz-theme', 'dark');
   });
   await page.goto('http://localhost:5174/');
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(2000);
   
-  const htmlClass = await page.locator('html').getAttribute('class');
-  console.log('HTML class:', htmlClass);
+  // Find the exact CSS rule that would govern dark:text-[#F87171]
+  const cssInfo = await page.evaluate(() => {
+    const info: string[] = [];
+    for (const sheet of document.styleSheets) {
+      try {
+        const rules = Array.from(sheet.cssRules);
+        for (const rule of rules) {
+          const text = rule.cssText || '';
+          if (text.includes('F87171') || text.includes('f87171')) {
+            info.push(text.slice(0, 300));
+          }
+        }
+      } catch { /* cross-origin */ }
+    }
+    return info;
+  });
   
-  // The SEVERITY_TEXT classes in ToolTile.tsx are:
-  //   Critical: "text-[#B91C1C] dark:text-[#F87171]"
-  // In dark mode the rendered class string contains "dark:text-\[#F87171\]"
-  // but the computed color should be rgb(248,113,113) if CSS is applied.
+  console.log('CSS rules containing F87171:');
+  cssInfo.forEach((r, i) => console.log(`[${i}]: ${r}`));
   
-  // Broader search: find all elements with 'CRIT' or 'MOD' text content  
-  const critChips = page.locator('span').filter({ hasText: /^CRIT$/ });
-  const modChips = page.locator('span').filter({ hasText: /^MOD$/ });
-  const critCount = await critChips.count();
-  const modCount = await modChips.count();
-  console.log('CRIT chips:', critCount, 'MOD chips:', modCount);
+  // Also check what the @variant or darkMode selector looks like
+  const darkVariantInfo = await page.evaluate(() => {
+    const info: string[] = [];
+    for (const sheet of document.styleSheets) {
+      try {
+        const rules = Array.from(sheet.cssRules);
+        for (const rule of rules) {
+          if (rule instanceof CSSMediaRule || rule instanceof CSSLayerBlockRule) {
+            const nestedRules = Array.from(rule.cssRules || []);
+            for (const nested of nestedRules) {
+              const text = nested.cssText || '';
+              if (text.includes('F87171') || text.includes('f87171')) {
+                info.push(`[media/layer]: ${rule.cssText?.slice(0,50)} -> ${text.slice(0, 200)}`);
+              }
+            }
+          }
+        }
+      } catch { /* cross-origin */ }
+    }
+    return info;
+  });
   
-  for (let i = 0; i < Math.min(critCount, 3); i++) {
-    const cls = await critChips.nth(i).getAttribute('class');
-    const color = await critChips.nth(i).evaluate(el => window.getComputedStyle(el).color);
-    console.log(`CRIT[${i}] class: ${cls} | color: ${color}`);
-  }
-  
-  for (let i = 0; i < Math.min(modCount, 2); i++) {
-    const cls = await modChips.nth(i).getAttribute('class');
-    const color = await modChips.nth(i).evaluate(el => window.getComputedStyle(el).color);
-    console.log(`MOD[${i}] class: ${cls} | color: ${color}`);
-  }
-  
-  // Also find cause count badges (High = text-[#B91C1C] dark:text-[#F87171])
-  const causeBadges = page.locator('span[class*="B91C1C"]');
-  const badgeCount = await causeBadges.count();
-  console.log('Cause badges with B91C1C class:', badgeCount);
-  for (let i = 0; i < Math.min(badgeCount, 3); i++) {
-    const color = await causeBadges.nth(i).evaluate(el => window.getComputedStyle(el).color);
-    console.log(`Badge[${i}] color: ${color}`);
-  }
+  console.log('Nested dark rules:');
+  darkVariantInfo.forEach((r, i) => console.log(`[${i}]: ${r}`));
 });
