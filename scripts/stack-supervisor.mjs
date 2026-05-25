@@ -615,6 +615,10 @@ if (cfg.osintCwd) {
       cwd: cfg.osintCwd,
     });
   } else {
+    // OSINT env: pass the Vite frontend port via VITE_PORT/FRONTEND_PORT only.
+    // Do NOT set PORT — when the OSINT cwd is a monorepo root, `pnpm run dev`
+    // also spawns an api-server that reads PORT from .env, and clobbering that
+    // here would force the API to bind the same port as the frontend.
     const osint = new ManagedChild({
       name: "osint",
       command: pnpmBin,
@@ -623,7 +627,6 @@ if (cfg.osintCwd) {
       env: {
         VITE_PORT: String(cfg.osintPort),
         FRONTEND_PORT: String(cfg.osintPort),
-        PORT: String(cfg.osintPort),
       },
       healthUrl: cfg.osintHealthUrl,
       essential: false, // OSINT is nice-to-have; don't pile on under load pressure
