@@ -21,7 +21,14 @@ import { cn } from "@/lib/utils";
 
 type Draft = Partial<ToolSeed> & { webhookUrl?: string };
 
-const STEPS = ["Identity", "Severity", "OEM", "Hosting", "Denominator", "Profile + webhook"] as const;
+const STEPS = [
+  "Identity",
+  "Severity",
+  "OEM",
+  "Hosting",
+  "Denominator",
+  "Profile + webhook",
+] as const;
 type StepName = (typeof STEPS)[number];
 
 const TOWER_OPTIONS: Tower[] = [

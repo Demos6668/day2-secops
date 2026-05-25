@@ -3,7 +3,6 @@ import { ShieldCheck, ArrowLeft } from "lucide-react";
 import { PageHeader } from "@/components/Common/PageHeader";
 import { EmptyState } from "@/components/Common/EmptyState";
 import { Card, CardContent } from "@/components/ui/shared";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RagBadge } from "@/components/Common/RagBadge";
 import { useFeeder } from "@/components/Feeder";

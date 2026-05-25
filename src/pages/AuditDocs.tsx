@@ -140,7 +140,6 @@ export default function AuditDocs() {
           </table>
         </CardContent>
       </Card>
-
     </div>
   );
 }

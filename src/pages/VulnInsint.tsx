@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Radar, ShieldAlert } from "lucide-react";
+import { Radar } from "lucide-react";
 import { PageHeader } from "@/components/Common/PageHeader";
 import { Card, CardContent } from "@/components/ui/shared";
 import { cn } from "@/lib/utils";
@@ -159,7 +159,6 @@ export default function VulnInsint() {
           </CardContent>
         </Card>
       </div>
-
     </div>
   );
 }

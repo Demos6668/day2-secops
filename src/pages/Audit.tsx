@@ -36,8 +36,7 @@ export default function Audit() {
     [tools],
   );
 
-  const exportNotice = () =>
-    alert("Export is not available in this build.");
+  const exportNotice = () => alert("Export is not available in this build.");
 
   return (
     <div className="space-y-6">
