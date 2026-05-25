@@ -236,11 +236,25 @@ body[data-density="compact"] {
 
   .glass-panel {
     background: var(--background-card);
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid var(--hairline);
     border-radius: 0.75rem;
     box-shadow:
       0 1px 0 0 rgba(255,255,255,0.04) inset,
       0 4px 24px 0 rgba(0,0,0,0.3);
+  }
+  /* Light-mode: ditch the inset white sheen and the heavy dark shadow. */
+  .light .glass-panel {
+    box-shadow:
+      0 1px 0 0 rgba(15,23,42,0.02) inset,
+      0 1px 3px 0 rgba(15,23,42,0.06),
+      0 1px 2px 0 rgba(15,23,42,0.04);
+  }
+  .light .card-spec {
+    box-shadow: 0 1px 4px rgba(15,23,42,0.06);
+  }
+  .light .card-spec:hover {
+    box-shadow: 0 4px 18px rgba(0,149,175,0.10);
+    filter: none;
   }
 
   .card-spec {

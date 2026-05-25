@@ -25,8 +25,8 @@ const SEVERITY_LABEL: Record<Tool["severity"], string> = {
 };
 
 const SEVERITY_TEXT: Record<Tool["severity"], string> = {
-  Critical: "text-[#F87171]",
-  Moderate: "text-[#F59E0B]",
+  Critical: "text-[#B91C1C] dark:text-[#F87171]",
+  Moderate: "text-[#B45309] dark:text-[#F59E0B]",
   Low: "text-muted-foreground",
 };
 
@@ -43,8 +43,8 @@ function dominantCauseWeight(causes: VisibilityCauseFlag[]): "High" | "Medium" |
 }
 
 const CAUSE_BADGE_TONE = {
-  High: "text-[#F87171] border-[#EF4444]/40 bg-[#EF4444]/10",
-  Medium: "text-[#F59E0B] border-[#B45309]/40 bg-[#B45309]/10",
+  High: "text-[#B91C1C] dark:text-[#F87171] border-[#EF4444]/40 bg-[#EF4444]/10",
+  Medium: "text-[#B45309] dark:text-[#F59E0B] border-[#B45309]/40 bg-[#B45309]/10",
   Low: "text-muted-foreground border-muted-foreground/30 bg-muted/30",
 } as const;
 
