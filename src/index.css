@@ -143,10 +143,26 @@
   --input: 214 20% 88%;
   --ring: 189 100% 34%;
 
-  /* Same RAG hexes — re-verify contrast against light card if light mode ships. */
+  /* RAG core (chips, dots, fills) — darker shades for white card backgrounds. */
   --rag-green: #15803D;
   --rag-amber: #B45309;
   --rag-red:   #B91C1C;
+
+  /* RAG text-band — used on light alpha backdrops. */
+  --rag-green-text: #15803D;
+  --rag-amber-text: #92400E;
+  --rag-red-text:   #B91C1C;
+
+  /* Always-dark variables get light variants so .surface-* + .glass-panel + the
+     hairline borders all flip cleanly when the theme is light. */
+  --background-dark: #F8FAFC;   /* slate-50 canvas */
+  --background-card: #FFFFFF;   /* white card */
+  --dark-navy:       #F1F5F9;   /* slate-100 elevated surface */
+  --text-primary:    #0F172A;   /* slate-900 */
+  --text-secondary:  #475569;   /* slate-600 */
+  --surface-raised:  hsl(0 0% 100%);
+  --hairline:        rgba(15, 23, 42, 0.10);
+  --hairline-soft:   rgba(15, 23, 42, 0.05);
 }
 
 @layer base {
