@@ -93,18 +93,19 @@ function rollUpByDomain(tools: Tool[]): DomainRow[] {
 }
 
 export default function FunctionalDomains() {
-  const [, params] = useRoute<{ slug?: string }>("/domains/:slug");
+  const [matchedSlug, params] = useRoute<{ slug: string }>("/domains/:slug");
   const { tools } = useFeeder();
   const rows = useMemo(() => rollUpByDomain(tools), [tools]);
 
-  const focusedDomain = params?.slug ? FUNCTIONAL_DOMAIN_BY_SLUG[params.slug] : undefined;
-  if (params?.slug && !focusedDomain) {
+  const slug = matchedSlug && params ? params.slug : undefined;
+  const focusedDomain = slug ? FUNCTIONAL_DOMAIN_BY_SLUG[slug] : undefined;
+  if (slug && !focusedDomain) {
     return (
       <div className="space-y-6">
         <PageHeader title="Functional Domain not found" icon={Layers} />
         <EmptyState
           title="Unknown domain"
-          description={`No functional domain with slug "${params.slug}".`}
+          description={`No functional domain with slug "${slug}".`}
         />
       </div>
     );
