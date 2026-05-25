@@ -8,9 +8,9 @@ import insintRaw from "../../workspaces/abcl/insint.json";
 import { InsintFileSchema, type InsintCve } from "@/types/insint";
 
 const SEVERITY_TONE: Record<InsintCve["severity"], string> = {
-  Critical: "text-[#F87171] border-[#EF4444]/40 bg-[#EF4444]/10",
-  High: "text-[#F59E0B] border-[#B45309]/40 bg-[#B45309]/10",
-  Medium: "text-[#FBBF24] border-[#D97706]/30 bg-[#D97706]/10",
+  Critical: "text-[#B91C1C] dark:text-[#F87171] border-[#EF4444]/40 bg-[#EF4444]/10",
+  High: "text-[#B45309] dark:text-[#F59E0B] border-[#B45309]/40 bg-[#B45309]/10",
+  Medium: "text-[#92400E] dark:text-[#FBBF24] border-[#D97706]/30 bg-[#D97706]/10",
   Low: "text-muted-foreground border-muted-foreground/30 bg-muted/30",
 };
 

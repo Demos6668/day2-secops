@@ -85,9 +85,9 @@ function aggregate(tools: Tool[]): OemRow[] {
 }
 
 const REASON_TONE: Record<OemLossReason["severity"], string> = {
-  Critical: "text-[#F87171]",
-  High: "text-[#F59E0B]",
-  Medium: "text-[#FBBF24]",
+  Critical: "text-[#B91C1C] dark:text-[#F87171]",
+  High: "text-[#B45309] dark:text-[#F59E0B]",
+  Medium: "text-[#92400E] dark:text-[#FBBF24]",
   Low: "text-muted-foreground",
 };
 
