@@ -17,10 +17,7 @@ interface LogoProps {
  */
 export function Logo({ withWordmark = true, size = 32, className }: LogoProps) {
   return (
-    <div
-      className={cn("inline-flex items-center gap-2", className)}
-      aria-label="Vi · Day2 SecOps"
-    >
+    <div className={cn("inline-flex items-center gap-2", className)} aria-label="Vi · Day2 SecOps">
       <OemMark oem="Vi" size={size} />
       {withWordmark && (
         <div className="flex flex-col leading-none">
