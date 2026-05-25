@@ -88,9 +88,7 @@ function pickReasonCodes(seedId: string, oem: string, shape: ProfileShape): stri
     return h / 0xffffffff;
   };
   const floor = SEVERITY_RANK[shape.reasonSeverityFloor];
-  const ranked = [...catalog].sort(
-    (a, b) => SEVERITY_RANK[b.severity] - SEVERITY_RANK[a.severity],
-  );
+  const ranked = [...catalog].sort((a, b) => SEVERITY_RANK[b.severity] - SEVERITY_RANK[a.severity]);
   const eligible = ranked.filter((r) => SEVERITY_RANK[r.severity] >= floor);
   const pool = eligible.length > 0 ? eligible : ranked;
   const picked: OemLossReason[] = [];

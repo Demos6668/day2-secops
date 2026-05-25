@@ -99,8 +99,7 @@ export function RiskyChangesTimeline({ tools }: RiskyChangesTimelineProps) {
     setRiskyOnly(false);
   };
 
-  const filterCount =
-    pickedRisks.length + pickedStatuses.length + (riskyOnly ? 1 : 0);
+  const filterCount = pickedRisks.length + pickedStatuses.length + (riskyOnly ? 1 : 0);
 
   return (
     <Card className="glass-panel">
@@ -229,7 +228,10 @@ export function RiskyChangesTimeline({ tools }: RiskyChangesTimelineProps) {
                           </span>
                           <Badge
                             variant="outline"
-                            className={cn("text-[10px] uppercase tracking-wider", RISK_TONE[c.riskClass])}
+                            className={cn(
+                              "text-[10px] uppercase tracking-wider",
+                              RISK_TONE[c.riskClass],
+                            )}
                           >
                             {c.riskClass === "dangerous" && (
                               <AlertTriangle className="h-2.5 w-2.5 mr-0.5" aria-hidden="true" />
