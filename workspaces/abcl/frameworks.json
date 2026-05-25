@@ -9,8 +9,8 @@
         { "id": "A.5.15", "title": "Access control", "anchorTools": ["mfa", "pam"] },
         { "id": "A.8.1", "title": "User endpoint devices", "anchorTools": ["sentinelOne", "trellix", "forcepoint", "forescout", "trendHips"] },
         { "id": "A.8.7", "title": "Protection against malware", "anchorTools": ["sentinelOne", "trendHips"] },
-        { "id": "A.8.22", "title": "Segregation of networks", "anchorTools": ["guardicore", "forescout", "fortinetFw", "fortinetSdwan"] },
-        { "id": "A.8.23", "title": "Web filtering / WAF", "anchorTools": ["appTrana", "impervaWaf"] },
+        { "id": "A.8.22", "title": "Segregation of networks", "anchorTools": ["guardicore", "forescout", "fortinetFw", "fortinetSdwan", "paloAltoSase", "checkpointSms"] },
+        { "id": "A.8.23", "title": "Web filtering / WAF", "anchorTools": ["appTrana", "impervaWaf", "f5Bigip"] },
         { "id": "A.8.24", "title": "Use of cryptography (data at rest)", "anchorTools": ["trellix"] },
         { "id": "A.8.10", "title": "Information deletion / DLP", "anchorTools": ["forcepoint"] }
       ]
@@ -24,10 +24,10 @@
         { "id": "ID.AM-02", "title": "Software inventory", "anchorTools": ["sentinelOne", "trendHips"] },
         { "id": "PR.AA-01", "title": "Identities and credentials are managed", "anchorTools": ["mfa", "pam"] },
         { "id": "PR.AA-05", "title": "Access permissions are managed", "anchorTools": ["pam"] },
-        { "id": "PR.IR-01", "title": "Network segmentation", "anchorTools": ["guardicore", "forescout", "fortinetFw", "fortinetSdwan"] },
+        { "id": "PR.IR-01", "title": "Network segmentation", "anchorTools": ["guardicore", "forescout", "fortinetFw", "fortinetSdwan", "paloAltoSase", "checkpointSms"] },
         { "id": "PR.DS-01", "title": "Data-at-rest protection", "anchorTools": ["trellix"] },
         { "id": "PR.DS-02", "title": "Data-in-transit / DLP", "anchorTools": ["forcepoint", "sftp"] },
-        { "id": "DE.CM-01", "title": "Network monitoring (WAF/IPS)", "anchorTools": ["appTrana", "impervaWaf", "trendHips", "fortinetAnalyzer"] }
+        { "id": "DE.CM-01", "title": "Network monitoring (WAF/IPS)", "anchorTools": ["appTrana", "impervaWaf", "trendHips", "fortinetAnalyzer", "radwareDdos", "checkpointSms"] }
       ]
     },
     {
@@ -41,8 +41,8 @@
         { "id": "CIS-5", "title": "Account Management", "anchorTools": ["pam"] },
         { "id": "CIS-6", "title": "Access Control Management", "anchorTools": ["mfa", "pam"] },
         { "id": "CIS-10", "title": "Malware Defenses", "anchorTools": ["sentinelOne", "trendHips"] },
-        { "id": "CIS-12", "title": "Network Infrastructure Management", "anchorTools": ["ddi", "guardicore", "forescout", "fortinetFw", "fortinetMgr", "fortinetSdwan"] },
-        { "id": "CIS-13", "title": "Network Monitoring and Defense", "anchorTools": ["appTrana", "impervaWaf", "fortinetAnalyzer"] }
+        { "id": "CIS-12", "title": "Network Infrastructure Management", "anchorTools": ["ddi", "guardicore", "forescout", "fortinetFw", "fortinetMgr", "fortinetSdwan", "paloAltoSase", "f5Bigip", "checkpointSms"] },
+        { "id": "CIS-13", "title": "Network Monitoring and Defense", "anchorTools": ["appTrana", "impervaWaf", "fortinetAnalyzer", "radwareDdos", "checkpointSms"] }
       ]
     },
     {
@@ -51,7 +51,7 @@
       "shortName": "RBI CSF",
       "controls": [
         { "id": "RBI-1", "title": "Inventory Management of Business IT Assets", "anchorTools": ["forescout", "sentinelOne"] },
-        { "id": "RBI-3", "title": "Network Management and Security", "anchorTools": ["ddi", "guardicore", "forescout", "fortinetFw", "fortinetMgr", "fortinetSdwan"] },
+        { "id": "RBI-3", "title": "Network Management and Security", "anchorTools": ["ddi", "guardicore", "forescout", "fortinetFw", "fortinetMgr", "fortinetSdwan", "paloAltoSase", "f5Bigip", "radwareDdos", "checkpointSms"] },
         { "id": "RBI-4", "title": "Secure Configuration", "anchorTools": ["trendHips", "trellix"] },
         { "id": "RBI-5", "title": "Application Security", "anchorTools": ["appTrana", "impervaWaf"] },
         { "id": "RBI-7", "title": "User Access Control / Management", "anchorTools": ["mfa", "pam"] },

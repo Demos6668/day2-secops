@@ -22,6 +22,7 @@ const CauseDetail = lazy(() => import("@/pages/CauseDetail"));
 const ControlDetail = lazy(() => import("@/pages/ControlDetail"));
 const OemDetail = lazy(() => import("@/pages/OemDetail"));
 const OemsOverview = lazy(() => import("@/pages/OemsOverview"));
+const FunctionalDomains = lazy(() => import("@/pages/FunctionalDomains"));
 const SnapshotDetail = lazy(() => import("@/pages/SnapshotDetail"));
 const VulnInsint = lazy(() => import("@/pages/VulnInsint"));
 const VulnOsint = lazy(() => import("@/pages/VulnOsint"));
@@ -59,6 +60,8 @@ function Router() {
             {/* Tool Landscape */}
             <Route path="/" component={Dashboard} />
             <Route path="/oems-overview" component={OemsOverview} />
+            <Route path="/domains/:slug" component={FunctionalDomains} />
+            <Route path="/domains" component={FunctionalDomains} />
 
             {/* Config Mgmt */}
             <Route path="/config/changes/:snapshotId" component={ChangeManagement} />

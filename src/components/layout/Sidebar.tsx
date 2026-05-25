@@ -17,6 +17,7 @@ import {
   X,
   Lock,
   Building2,
+  Layers,
   ArrowRightLeft,
   Archive,
   Radar,
@@ -57,6 +58,7 @@ const MAIN_NAV: NavItem[] = [
     children: [
       { kind: "leaf", name: "by Security Tower", href: "/", icon: ShieldCheck },
       { kind: "leaf", name: "by OEM", href: "/oems-overview", icon: Building2 },
+      { kind: "leaf", name: "by Functional Domain", href: "/domains", icon: Layers },
     ],
   },
   {

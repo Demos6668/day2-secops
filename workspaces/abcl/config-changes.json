@@ -214,6 +214,70 @@
       "diff": "- order: deny-suspicious-out (id 088) then allow-out-general (id 091)\n+ order: allow-out-general (id 091) then deny-suspicious-out (id 088)"
     },
     {
+      "id": "chg-2026-05-25-005",
+      "timestamp": "2026-05-25T07:50:00.000Z",
+      "toolId": "paloAltoSase",
+      "actor": "net.ops/asha.r",
+      "ticket": "CHG-44240",
+      "type": "sase_policy_edit",
+      "summary": "URL filtering profile carve-out: allow *.partner-research.example from any SASE node",
+      "riskClass": "risky",
+      "riskReasons": [
+        "Wildcard partner domain whitelisted across all SASE nodes",
+        "Bypasses URL category-based blocking",
+        "No expiry — manual revert dependency"
+      ],
+      "status": "deployed",
+      "diff": "+ url-filter.partner-research-allow = *.partner-research.example"
+    },
+    {
+      "id": "chg-2026-05-25-004",
+      "timestamp": "2026-05-25T05:20:00.000Z",
+      "toolId": "checkpointSms",
+      "actor": "net.ops/rajesh.k",
+      "ticket": "CHG-44232",
+      "type": "policy_install",
+      "summary": "Publish failed: access policy install to GW-DC2-Edge-A errored at 92% validation",
+      "riskClass": "dangerous",
+      "riskReasons": [
+        "Distributed policy install partially failed",
+        "GW-DC2-Edge-A on stale ruleset until next install window",
+        "cpd daemon log shows policy verification timeout"
+      ],
+      "status": "rolled_back",
+      "diff": "policy:Production rev 318 → 319 (install failed on 1/18 gateways)"
+    },
+    {
+      "id": "chg-2026-05-25-003",
+      "timestamp": "2026-05-25T03:10:00.000Z",
+      "toolId": "f5Bigip",
+      "actor": "app.sec/k.banerjee",
+      "ticket": "CHG-44225",
+      "type": "irule_edit",
+      "summary": "iRule HTTP_REQUEST rewrite for /api/* → /api/v2/* on app-portal pool",
+      "riskClass": "risky",
+      "riskReasons": [
+        "Active iRule edit on a Critical-tier app",
+        "Rewrite changes path semantics; downstream WAF tuned on old paths",
+        "No canary pool diversion configured"
+      ],
+      "status": "deployed",
+      "diff": "+ iRule rewrite-api-v2:\n+   when HTTP_REQUEST { HTTP::uri [string map {/api/ /api/v2/} [HTTP::uri]] }"
+    },
+    {
+      "id": "chg-2026-05-24-022",
+      "timestamp": "2026-05-24T23:30:00.000Z",
+      "toolId": "radwareDdos",
+      "actor": "net.ops/asha.r",
+      "ticket": "CHG-44218",
+      "type": "ddos_whitelist_edit",
+      "summary": "Whitelisted partner-clearing subnet 203.0.113.0/24 across scrubber pair",
+      "riskClass": "safe",
+      "riskReasons": [],
+      "status": "deployed",
+      "diff": "+ whitelist.partner-clearing = 203.0.113.0/24"
+    },
+    {
       "id": "chg-2026-05-21-005",
       "timestamp": "2026-05-21T11:08:00.000Z",
       "toolId": "ddi",
