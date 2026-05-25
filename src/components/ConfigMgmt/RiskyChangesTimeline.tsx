@@ -33,15 +33,15 @@ import type { Tool } from "@/types/tool";
 const CHANGES = ConfigChangesFileSchema.parse(changesRaw).changes;
 
 const RISK_TONE: Record<ConfigChangeRisk, string> = {
-  safe: "border-[#22C55E]/30 text-[#4ADE80] bg-[#22C55E]/10",
-  risky: "border-[#B45309]/40 text-[#F59E0B] bg-[#B45309]/10",
-  dangerous: "border-[#EF4444]/40 text-[#F87171] bg-[#EF4444]/10",
+  safe: "border-[#22C55E]/30 text-[#15803D] dark:text-[#4ADE80] bg-[#22C55E]/10",
+  risky: "border-[#B45309]/40 text-[#B45309] dark:text-[#F59E0B] bg-[#B45309]/10",
+  dangerous: "border-[#EF4444]/40 text-[#B91C1C] dark:text-[#F87171] bg-[#EF4444]/10",
 };
 
 const STATUS_TONE: Record<ConfigChangeStatus, string> = {
   pending_review: "border-primary/30 text-primary bg-primary/10",
   deployed: "border-muted-foreground/30 text-foreground bg-muted/30",
-  rolled_back: "border-[#EF4444]/30 text-[#F87171] bg-[#EF4444]/10",
+  rolled_back: "border-[#EF4444]/30 text-[#B91C1C] dark:text-[#F87171] bg-[#EF4444]/10",
 };
 
 const STATUS_LABEL: Record<ConfigChangeStatus, string> = {
@@ -106,7 +106,7 @@ export function RiskyChangesTimeline({ tools }: RiskyChangesTimelineProps) {
       <CardContent className="p-4 space-y-3">
         <header className="flex items-baseline justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <ShieldAlert className="h-3.5 w-3.5 text-[#F87171]" aria-hidden="true" />
+            <ShieldAlert className="h-3.5 w-3.5 text-[#B91C1C] dark:text-[#F87171]" aria-hidden="true" />
             <h3 className="text-sm font-semibold">Risky changes</h3>
             <div className="flex items-center gap-1.5 ml-2">
               <Badge variant="outline" className={cn("text-[10px] font-mono", RISK_TONE.dangerous)}>

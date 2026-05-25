@@ -112,7 +112,7 @@ export function SecurityScoringPanel({
       <CardContent className="p-4 space-y-3">
         <header className="flex items-baseline justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <TrendingDown className="h-3.5 w-3.5 text-[#F87171]" aria-hidden="true" />
+            <TrendingDown className="h-3.5 w-3.5 text-[#B91C1C] dark:text-[#F87171]" aria-hidden="true" />
             <h3 className="text-sm font-semibold">Security Scoring</h3>
           </div>
           <div className="flex items-center gap-1.5">

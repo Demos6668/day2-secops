@@ -15,8 +15,8 @@ const CHECKLISTS_DATA = AuditChecklistsFileSchema.parse(checklistsRaw);
 
 const STATUS_TONE: Record<ChecklistItem["status"], string> = {
   open: "text-muted-foreground border-muted-foreground/30",
-  "in-progress": "text-[#F59E0B] border-[#B45309]/40 bg-[#B45309]/10",
-  done: "text-[#4ADE80] border-[#22C55E]/30 bg-[#22C55E]/10",
+  "in-progress": "text-[#B45309] dark:text-[#F59E0B] border-[#B45309]/40 bg-[#B45309]/10",
+  done: "text-[#15803D] dark:text-[#4ADE80] border-[#22C55E]/30 bg-[#22C55E]/10",
 };
 
 const STATUS_ICON: Record<ChecklistItem["status"], typeof Circle> = {
@@ -33,8 +33,8 @@ const STATUS_LABEL: Record<ChecklistItem["status"], string> = {
 
 const STATUS_ICON_TONE: Record<ChecklistItem["status"], string> = {
   open: "text-muted-foreground",
-  "in-progress": "text-[#F59E0B]",
-  done: "text-[#4ADE80]",
+  "in-progress": "text-[#B45309] dark:text-[#F59E0B]",
+  done: "text-[#15803D] dark:text-[#4ADE80]",
 };
 
 export default function AuditChecklist() {

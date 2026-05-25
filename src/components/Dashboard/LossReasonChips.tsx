@@ -14,9 +14,9 @@ interface LossReasonChipsProps {
 }
 
 const TONE: Record<OemLossReason["severity"], string> = {
-  Critical: "border-[#EF4444]/40 text-[#F87171] bg-[#EF4444]/10",
-  High: "border-[#B45309]/40 text-[#F59E0B] bg-[#B45309]/10",
-  Medium: "border-[#D97706]/30 text-[#FBBF24] bg-[#D97706]/10",
+  Critical: "border-[#EF4444]/40 text-[#B91C1C] dark:text-[#F87171] bg-[#EF4444]/10",
+  High: "border-[#B45309]/40 text-[#B45309] dark:text-[#F59E0B] bg-[#B45309]/10",
+  Medium: "border-[#D97706]/30 text-[#92400E] dark:text-[#FBBF24] bg-[#D97706]/10",
   Low: "border-muted-foreground/30 text-muted-foreground bg-muted/30",
 };
 
