@@ -3,7 +3,7 @@ import { OemMark } from "@/components/Brand";
 import { CAUSES } from "@/lib/visibility/causes";
 import { CAUSE_ICONS } from "@/lib/visibility/cause-icons";
 import { getRagToken } from "@/lib/rag-tokens";
-import { cn, formatRelative } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { Tool, VisibilityCauseFlag } from "@/types/tool";
 
 interface ToolTileProps {
