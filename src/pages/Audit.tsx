@@ -43,7 +43,7 @@ export default function Audit() {
       <PageHeader
         title="Audit"
         icon={ShieldCheck}
-        description="Cross-framework control coverage mapped to ABCL tools. Click any cell for evidence + rationale."
+        description="Cross-framework control coverage mapped to the workspace's tools. Click any cell for evidence + rationale."
         meta={`${frameworks.length} frameworks`}
         actions={
           <div className="flex items-center gap-2">

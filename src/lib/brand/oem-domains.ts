@@ -20,12 +20,8 @@ export const OEM_DOMAIN: Record<string, string> = {
   Guardicore: "akamai.com", // acquired by Akamai
   Forescout: "forescout.com",
   Fortinet: "www.fortinet.com", // logo.dev returns 404 on the bare apex; www works.
-  // Demo workspace
-  Okta: "okta.com",
-  Cloudflare: "cloudflare.com",
-  CrowdStrike: "crowdstrike.com",
-  Symantec: "broadcom.com", // acquired by Broadcom
-  "Cisco ISE": "cisco.com",
+  Vi: "myvi.in",
+  "Vodafone Idea": "myvi.in",
 };
 
 export function domainFor(oem: string): string | undefined {

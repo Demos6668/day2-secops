@@ -28,6 +28,7 @@ import { useFeeder } from "@/components/Feeder";
 import { useWorkspace } from "@/lib/workspace";
 import { cn, formatRelative } from "@/lib/utils";
 import { WorstNLeaderboard } from "@/components/Dashboard";
+import { RiskyChangesTimeline } from "@/components/ConfigMgmt";
 
 const DIFF_TONE: Record<ToolDiff["kind"], string> = {
   added: "border-[#22C55E]/30 text-[#22C55E] bg-[#22C55E]/10",
@@ -114,6 +115,8 @@ export default function ChangeManagement() {
         }
       />
 
+      <RiskyChangesTimeline tools={tools} />
+
       <WorstNLeaderboard
         tools={tools}
         n={5}
@@ -129,7 +132,7 @@ export default function ChangeManagement() {
           {snapshots.length === 0 ? (
             <EmptyState
               title="No snapshots yet"
-              description="Click 'Capture now' to record the current state. Phase 5 wires a daily scheduled capture."
+              description="Click 'Capture now' to record the current state. A scheduled daily capture runs in the background once wired to your change-broker."
             />
           ) : (
             <ul className="divide-y divide-white/5">
