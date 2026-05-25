@@ -71,7 +71,7 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
   return (
     <div
       className={cn(
-        "group relative h-12 flex items-center gap-2.5 pr-2 pl-3 rounded-md",
+        "group relative h-12 flex items-center gap-1.5 pr-2 pl-3 rounded-md",
         "bg-card hover:bg-white/[0.03] focus-visible:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-primary",
         "cursor-pointer outline-none transition-colors",
         className,
@@ -126,7 +126,7 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
       {/* Visibility: thin tinted bar + tabular % */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex items-center gap-1.5 w-[88px] shrink-0">
+          <div className="flex items-center gap-1 w-[60px] shrink-0">
             <div className="relative h-[4px] flex-1 rounded-full bg-white/[0.06] overflow-hidden">
               <div
                 className="absolute inset-y-0 left-0 rounded-full"
@@ -137,7 +137,7 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
               />
             </div>
             <span
-              className="text-[11px] font-mono tabular-nums w-[36px] text-right"
+              className="text-[10px] font-mono tabular-nums w-[28px] text-right"
               style={{ color: ragColor }}
             >
               {(visibilityPct * 100).toFixed(0)}%
@@ -154,7 +154,7 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
         <TooltipTrigger asChild>
           <span
             className={cn(
-              "w-[44px] shrink-0 text-center text-[10px] font-bold tracking-widest uppercase",
+              "w-[32px] shrink-0 text-center text-[10px] font-bold tracking-wider uppercase",
               SEVERITY_TEXT[tool.severity],
             )}
           >
@@ -167,7 +167,7 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
       </Tooltip>
 
       {/* Cause count badge — colored by dominant weight */}
-      <div className="w-[36px] shrink-0 flex justify-center">
+      <div className="w-[28px] shrink-0 flex justify-center">
         {causeCount > 0 && FirstCauseIcon && causeWeight && (
           <Tooltip>
             <TooltipTrigger asChild>
@@ -198,17 +198,6 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
         )}
       </div>
 
-      {/* Last sync — relative time, right-flushed, muted, tabular */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span className="w-[44px] shrink-0 text-right text-[10px] font-mono tabular-nums text-muted-foreground">
-            {formatRelative(tool.lastSync)}
-          </span>
-        </TooltipTrigger>
-        <TooltipContent side="top" className="text-xs">
-          Last synced {new Date(tool.lastSync).toLocaleString()}
-        </TooltipContent>
-      </Tooltip>
     </div>
   );
 }
