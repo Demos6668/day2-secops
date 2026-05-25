@@ -457,6 +457,133 @@
         "consolePath": "FortiAnalyzer → Storage → Retention",
         "severity": "High"
       }
+    ],
+    "Palo Alto": [
+      {
+        "code": "ha_state_change",
+        "label": "HA state change",
+        "description": "Edge firewall pair changed HA state (active/passive flip). Sessions may have failed over with state loss.",
+        "consolePath": "Prisma Access → Insights → Device Health → HA",
+        "severity": "Critical"
+      },
+      {
+        "code": "sase_tunnel_down",
+        "label": "SASE node tunnel down",
+        "description": "Prisma Access SASE node tunnel reporting unhealthy from /infra/v1/status. Remote users routed around.",
+        "consolePath": "Prisma Access → Insights → SASE Nodes",
+        "severity": "High"
+      },
+      {
+        "code": "url_profile_stale",
+        "label": "URL filtering profile stale",
+        "description": "URL filtering profile hasn't refreshed in >7d. New categorized domains not covered.",
+        "consolePath": "Objects → Security Profiles → URL Filtering",
+        "severity": "Medium"
+      },
+      {
+        "code": "session_high",
+        "label": "Active sessions > 85%",
+        "description": "Concurrent session table above 85% of the platform cap. New connections may be rejected.",
+        "consolePath": "Dashboard → Resources → Sessions",
+        "severity": "High"
+      }
+    ],
+    "F5": [
+      {
+        "code": "pool_member_down",
+        "label": "Pool member down",
+        "description": "F5 BIG-IP pool member is in DOWN state. Traffic re-balanced to remaining members.",
+        "consolePath": "Local Traffic → Pools → Members",
+        "severity": "High"
+      },
+      {
+        "code": "ssl_chip_high",
+        "label": "SSL chip utilization > 80%",
+        "description": "Cryptographic chip utilization sustained above 80%. SSL handshake latency rising.",
+        "consolePath": "Statistics → Performance → SSL",
+        "severity": "Medium"
+      },
+      {
+        "code": "irule_error",
+        "label": "iRule runtime error",
+        "description": "Custom iRule throwing runtime errors. Traffic continues but the rule logic isn't applied.",
+        "consolePath": "Local Traffic → iRules → Logs",
+        "severity": "High"
+      },
+      {
+        "code": "mcpd_node_down",
+        "label": "mcpd node DOWN log",
+        "description": "Local/mcpd reports node state changed to DOWN — possible loss of HA pair sync.",
+        "consolePath": "System → Logs → Local Traffic",
+        "severity": "Critical"
+      }
+    ],
+    "Radware": [
+      {
+        "code": "attack_started",
+        "label": "Active mitigation",
+        "description": "Radware DefensePro is actively mitigating a DDoS attack on an upstream subnet.",
+        "consolePath": "DefensePro → Real-time Security → Attacks",
+        "severity": "High"
+      },
+      {
+        "code": "bypass_failed",
+        "label": "Hardware bypass failed",
+        "description": "Physical hardware bypass mechanism failed last self-test. A scrubber failure would leave traffic unprotected.",
+        "consolePath": "Device → Health → Bypass Status",
+        "severity": "Critical"
+      },
+      {
+        "code": "packet_drop_anomaly",
+        "label": "Packet-drop anomaly",
+        "description": "Drop counters deviated from baseline by > 3σ in the last 5 min — possible upstream link issue.",
+        "consolePath": "DefensePro → Statistics → Packets",
+        "severity": "Medium"
+      },
+      {
+        "code": "whitelist_drift",
+        "label": "Whitelist drift",
+        "description": "Trading-partner whitelist diverged from the source-of-truth subnet list.",
+        "consolePath": "DefensePro → Networks → Whitelists",
+        "severity": "Low"
+      }
+    ],
+    "Check Point": [
+      {
+        "code": "cpd_crash",
+        "label": "cpd daemon crash",
+        "description": "Core management daemon (cpd) crashed on the Smart-1 controller. Policy publish queued.",
+        "consolePath": "SmartConsole → System Health → Processes",
+        "severity": "Critical"
+      },
+      {
+        "code": "fwd_crash",
+        "label": "fwd daemon crash",
+        "description": "Firewall worker daemon (fwd) restart loop on a managed gateway. Policy enforcement degraded.",
+        "consolePath": "SmartConsole → Gateways → Logs",
+        "severity": "Critical"
+      },
+      {
+        "code": "policy_install_failed",
+        "label": "Policy install failed",
+        "description": "Access-control policy install to one or more distributed gateways errored on last attempt.",
+        "consolePath": "SmartConsole → Manage Policies → Install History",
+        "severity": "High"
+      },
+      {
+        "code": "sandbox_queue_high",
+        "label": "Sandbox queue backlog",
+        "description": "Threat emulation sandbox processing queue above 80%. Inspection latency climbing.",
+        "consolePath": "SmartConsole → Threat Emulation → Queue",
+        "severity": "High"
+      },
+      {
+        "code": "ips_profile_stale",
+        "label": "IPS profile stale",
+        "description": "IPS profile classification hasn't been refreshed in over a week. New signatures absent.",
+        "consolePath": "SmartConsole → Threat Prevention → IPS",
+        "severity": "Medium"
+      }
     ]
   }
 }
