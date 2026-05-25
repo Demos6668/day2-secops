@@ -235,6 +235,11 @@ export function SecurityScoringPanel({
                         ))}
                       </ul>
                     )}
+                    {t.activeLossReasons && t.activeLossReasons.length > 0 && (
+                      <div className="mt-1.5">
+                        <LossReasonChips oem={t.oem} codes={t.activeLossReasons} compact />
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center gap-2 shrink-0 pt-0.5">
                     <RagBadge status={t.status} showLabel={false} />

@@ -1,0 +1,305 @@
+{
+  "checklists": [
+    {
+      "id": "quarterly-access-review-q2-2026",
+      "name": "Quarterly access review — Q2 2026",
+      "description": "Cross-tower attestation that privileged + standing access matches HRMS active set. Anchors to ISO A.5.15 + RBI-7 + NIST PR.AA-05.",
+      "owner": "iam.ops",
+      "due": "2026-06-30",
+      "items": [
+        {
+          "id": "q2-01",
+          "title": "PAM vault — revoke users not in HRMS active set",
+          "status": "done",
+          "owner": "iam.ops",
+          "control": "ISO A.5.15"
+        },
+        {
+          "id": "q2-02",
+          "title": "MFA — re-enroll users who skipped FIDO2 rollout (CyberArk Identity push channel)",
+          "status": "in-progress",
+          "owner": "iam.ops",
+          "control": "RBI-7"
+        },
+        {
+          "id": "q2-03",
+          "title": "PAM break-glass account check-out review",
+          "status": "in-progress",
+          "owner": "soc.lead",
+          "control": "ISO A.5.15"
+        },
+        {
+          "id": "q2-04",
+          "title": "SFTP partner accounts — re-attest external counterparties",
+          "status": "open",
+          "owner": "data.ops",
+          "due": "2026-06-15",
+          "control": "RBI-9"
+        },
+        {
+          "id": "q2-05",
+          "title": "Forescout NAC — clean stale device CMDB rows >180d",
+          "status": "open",
+          "owner": "net.ops",
+          "due": "2026-06-20",
+          "control": "CIS-1"
+        }
+      ]
+    },
+    {
+      "id": "rbi-csf-mid-year-2026",
+      "name": "RBI CSF mid-year compliance verification",
+      "description": "RBI Cyber Security Framework attestation against current anchor tools. Evidence package compiled for the CISO sign-off pack.",
+      "owner": "audit.team",
+      "due": "2026-07-15",
+      "items": [
+        {
+          "id": "rbi-01",
+          "title": "Pull RBI-3 anchor-tool evidence (NGFW + SD-WAN + Forescout + Guardicore)",
+          "status": "done",
+          "owner": "audit.team",
+          "control": "RBI-3"
+        },
+        {
+          "id": "rbi-02",
+          "title": "RBI-5 application security — WAF block-mode coverage report (AppTrana + Imperva)",
+          "status": "in-progress",
+          "owner": "app.sec",
+          "control": "RBI-5"
+        },
+        {
+          "id": "rbi-03",
+          "title": "RBI-4 secure configuration — TrendMicro Deep Security policy versions",
+          "status": "in-progress",
+          "owner": "endpoint.ops",
+          "control": "RBI-4"
+        },
+        {
+          "id": "rbi-04",
+          "title": "RBI-9 DLP — Forcepoint outbound-mail policy proof of effectiveness",
+          "status": "open",
+          "owner": "data.ops",
+          "due": "2026-06-30",
+          "control": "RBI-9"
+        },
+        {
+          "id": "rbi-05",
+          "title": "RBI-10 — FortiAnalyzer retention floor (180d) verification",
+          "status": "open",
+          "owner": "net.ops",
+          "due": "2026-07-10",
+          "control": "RBI-10"
+        }
+      ]
+    },
+    {
+      "id": "endpoint-posture-verification-2026-05",
+      "name": "Endpoint posture verification — May sweep",
+      "description": "Confirm endpoint detection, host-IPS, and disk-encryption coverage across the 33,000-endpoint fleet. Surface any drift before the next steering committee.",
+      "owner": "endpoint.ops",
+      "due": "2026-05-31",
+      "items": [
+        {
+          "id": "ep-01",
+          "title": "S1 — agents offline >24h: investigate + decommission false-positives",
+          "status": "in-progress",
+          "owner": "endpoint.ops",
+          "control": "ISO A.8.1"
+        },
+        {
+          "id": "ep-02",
+          "title": "TrendMicro Deep Security — agents with policy >7d out of date",
+          "status": "open",
+          "owner": "endpoint.ops",
+          "due": "2026-05-28",
+          "control": "ISO A.8.7"
+        },
+        {
+          "id": "ep-03",
+          "title": "Trellix — recovery keys missing from ePO escrow",
+          "status": "open",
+          "owner": "endpoint.ops",
+          "due": "2026-05-30",
+          "control": "ISO A.8.24"
+        },
+        {
+          "id": "ep-04",
+          "title": "S1 RFM (Reduced Functionality Mode) endpoints — schedule kernel update",
+          "status": "done",
+          "owner": "endpoint.ops",
+          "control": "ISO A.8.1"
+        }
+      ]
+    },
+    {
+      "id": "network-segmentation-attestation-h1-2026",
+      "name": "Network segmentation attestation — H1 2026",
+      "description": "Attest that segmentation between branch, DC, and DR remains enforced. NGFW HA pair sync, SD-WAN overlay SLAs, Guardicore policy reconciliation.",
+      "owner": "net.ops",
+      "due": "2026-06-30",
+      "items": [
+        {
+          "id": "ns-01",
+          "title": "FortiGate HA pair sync — confirm both DC pairs in active/passive sync",
+          "status": "done",
+          "owner": "net.ops",
+          "control": "ISO A.8.22"
+        },
+        {
+          "id": "ns-02",
+          "title": "SD-WAN overlay SLA — review BFD flap report for last 30d",
+          "status": "in-progress",
+          "owner": "net.ops",
+          "control": "RBI-3"
+        },
+        {
+          "id": "ns-03",
+          "title": "Guardicore — assets with policy_diverged label",
+          "status": "in-progress",
+          "owner": "net.ops",
+          "control": "ISO A.8.22"
+        },
+        {
+          "id": "ns-04",
+          "title": "Forescout — SNMP creds failures on access switches",
+          "status": "open",
+          "owner": "net.ops",
+          "due": "2026-06-15",
+          "control": "CIS-12"
+        },
+        {
+          "id": "ns-05",
+          "title": "FortiManager — failed policy installs in last 14d (close out)",
+          "status": "open",
+          "owner": "net.ops",
+          "due": "2026-06-20",
+          "control": "RBI-3"
+        }
+      ]
+    },
+    {
+      "id": "data-protection-review-q2-2026",
+      "name": "Data protection review — Q2 2026",
+      "description": "Cross-tower review of disk encryption, DLP outbound enforcement, and SFTP partner integrity. Maps to ISO A.8.10 / A.8.24 + RBI-9.",
+      "owner": "data.ops",
+      "due": "2026-06-30",
+      "items": [
+        {
+          "id": "dp-01",
+          "title": "Trellix disk encryption — endpoints with stalled initial encryption >7d",
+          "status": "in-progress",
+          "owner": "endpoint.ops",
+          "control": "ISO A.8.24"
+        },
+        {
+          "id": "dp-02",
+          "title": "Forcepoint DLP — endpoints with client_uninstalled state",
+          "status": "in-progress",
+          "owner": "data.ops",
+          "control": "ISO A.8.10"
+        },
+        {
+          "id": "dp-03",
+          "title": "GlobalScape SFTP — partner certs expiring in next 30d",
+          "status": "open",
+          "owner": "data.ops",
+          "due": "2026-06-10",
+          "control": "RBI-9"
+        },
+        {
+          "id": "dp-04",
+          "title": "Forcepoint policy load failures — DLP classifier deploy validation",
+          "status": "open",
+          "owner": "data.ops",
+          "due": "2026-06-20",
+          "control": "ISO A.8.10"
+        }
+      ]
+    },
+    {
+      "id": "iso-27001-surveillance-2026",
+      "name": "ISO 27001:2022 surveillance audit prep",
+      "description": "Pre-audit walk-through of Annex A controls with auditor-curated evidence pulls. Targets the August surveillance window.",
+      "owner": "audit.team",
+      "due": "2026-08-01",
+      "items": [
+        {
+          "id": "iso-01",
+          "title": "A.5.9 — Asset inventory reconciliation (Forescout + S1 + Trellix)",
+          "status": "in-progress",
+          "owner": "audit.team",
+          "control": "ISO A.5.9"
+        },
+        {
+          "id": "iso-02",
+          "title": "A.5.15 — Access control evidence package (PAM + MFA)",
+          "status": "in-progress",
+          "owner": "iam.ops",
+          "control": "ISO A.5.15"
+        },
+        {
+          "id": "iso-03",
+          "title": "A.8.7 — Anti-malware coverage report (S1 + TrendMicro)",
+          "status": "open",
+          "owner": "endpoint.ops",
+          "due": "2026-07-15",
+          "control": "ISO A.8.7"
+        },
+        {
+          "id": "iso-04",
+          "title": "A.8.23 — WAF block-mode statement (AppTrana + Imperva)",
+          "status": "open",
+          "owner": "app.sec",
+          "due": "2026-07-15",
+          "control": "ISO A.8.23"
+        },
+        {
+          "id": "iso-05",
+          "title": "A.8.24 — Cryptography lifecycle review (Trellix encryption + key escrow)",
+          "status": "open",
+          "owner": "data.ops",
+          "due": "2026-07-20",
+          "control": "ISO A.8.24"
+        }
+      ]
+    },
+    {
+      "id": "new-tool-onboarding-gate",
+      "name": "New tool onboarding gate",
+      "description": "Checklist run against every newly-added tool before it counts toward coverage. Outputs are the inputs to the SOC sign-off pack.",
+      "owner": "soc.lead",
+      "items": [
+        {
+          "id": "ng-01",
+          "title": "Confirm asset denominator + denominatorUnit are accurate vs source-of-truth",
+          "status": "open",
+          "owner": "soc.lead"
+        },
+        {
+          "id": "ng-02",
+          "title": "Anchor the tool to at least one framework control (ISO / NIST / RBI / CIS / SEBI)",
+          "status": "open",
+          "owner": "audit.team"
+        },
+        {
+          "id": "ng-03",
+          "title": "Confirm webhook signing key rotation cadence + HMAC algo documented",
+          "status": "open",
+          "owner": "soc.lead"
+        },
+        {
+          "id": "ng-04",
+          "title": "Add OEM loss-reason catalog entries (admin console paths + severities)",
+          "status": "open",
+          "owner": "audit.team"
+        },
+        {
+          "id": "ng-05",
+          "title": "Confirm freshness SLO matches tower (e.g. Identity 6h, Network 12h)",
+          "status": "open",
+          "owner": "soc.lead"
+        }
+      ]
+    }
+  ]
+}
