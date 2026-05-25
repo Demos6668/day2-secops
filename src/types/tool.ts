@@ -16,6 +16,44 @@ export type Tower = z.infer<typeof TowerSchema>;
 export const RagStatusSchema = z.enum(["green", "amber", "red"]);
 export type RagStatus = z.infer<typeof RagStatusSchema>;
 
+// Functional Domains — orthogonal to Towers. Domains describe what an
+// ops team *does* with a tool day-to-day; Towers describe *which security
+// function* the tool covers. The same tool sits in one Tower and one
+// Functional Domain.
+export const FunctionalDomainSchema = z.enum([
+  "Perimeter & Edge",
+  "Identity & Access",
+  "Workload & Data",
+  "Endpoint Rigs",
+  "Network Plumbing",
+  "Firewall Controller",
+]);
+export type FunctionalDomain = z.infer<typeof FunctionalDomainSchema>;
+export const FUNCTIONAL_DOMAINS: FunctionalDomain[] = [
+  "Perimeter & Edge",
+  "Identity & Access",
+  "Workload & Data",
+  "Endpoint Rigs",
+  "Network Plumbing",
+  "Firewall Controller",
+];
+/** URL-safe slug per Functional Domain for `/domains/:slug`. */
+export const FUNCTIONAL_DOMAIN_SLUG: Record<FunctionalDomain, string> = {
+  "Perimeter & Edge": "perimeter-edge",
+  "Identity & Access": "identity-access",
+  "Workload & Data": "workload-data",
+  "Endpoint Rigs": "endpoint-rigs",
+  "Network Plumbing": "network-plumbing",
+  "Firewall Controller": "firewall-controller",
+};
+export const FUNCTIONAL_DOMAIN_BY_SLUG: Record<string, FunctionalDomain> =
+  Object.fromEntries(
+    (Object.keys(FUNCTIONAL_DOMAIN_SLUG) as FunctionalDomain[]).map((d) => [
+      FUNCTIONAL_DOMAIN_SLUG[d],
+      d,
+    ]),
+  ) as Record<string, FunctionalDomain>;
+
 export const MockProfileSchema = z.enum(["healthy", "degraded", "flapping", "stale"]);
 export type MockProfile = z.infer<typeof MockProfileSchema>;
 
@@ -49,6 +87,8 @@ export const ToolSeedSchema = z.object({
   mockProfile: MockProfileSchema.default("healthy"),
   category: z.string().optional(),
   freshnessSloHoursOverride: z.number().positive().optional(),
+  /** Orthogonal facet for the SecOps operational lens — see FunctionalDomainSchema. */
+  functionalDomain: FunctionalDomainSchema.optional(),
 });
 export type ToolSeed = z.infer<typeof ToolSeedSchema>;
 

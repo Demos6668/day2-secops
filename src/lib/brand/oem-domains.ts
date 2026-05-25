@@ -20,6 +20,10 @@ export const OEM_DOMAIN: Record<string, string> = {
   Guardicore: "akamai.com", // acquired by Akamai
   Forescout: "forescout.com",
   Fortinet: "www.fortinet.com", // logo.dev returns 404 on the bare apex; www works.
+  "Palo Alto": "paloaltonetworks.com",
+  F5: "f5.com",
+  Radware: "radware.com",
+  "Check Point": "checkpoint.com",
   Vi: "myvi.in",
   "Vodafone Idea": "myvi.in",
 };

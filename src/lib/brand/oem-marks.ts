@@ -30,6 +30,10 @@ const MARKS: Record<string, OemMarkDef> = {
   Guardicore: { color: "#0099CC", textColor: "#FFFFFF", initials: "GC" },
   Forescout: { color: "#00B388", textColor: "#0B1220", initials: "FS" },
   Fortinet: { color: "#EE3124", textColor: "#FFFFFF", initials: "FN" },
+  "Palo Alto": { color: "#FA582D", textColor: "#FFFFFF", initials: "PA" },
+  F5: { color: "#E4002B", textColor: "#FFFFFF", initials: "F5" },
+  Radware: { color: "#003D7B", textColor: "#FFFFFF", initials: "RW" },
+  "Check Point": { color: "#C92027", textColor: "#FFFFFF", initials: "CP" },
   Vi: { color: "#ED1C24", textColor: "#FFFFFF", initials: "Vi" },
   "Vodafone Idea": { color: "#ED1C24", textColor: "#FFFFFF", initials: "Vi" },
 };
