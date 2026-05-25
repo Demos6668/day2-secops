@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_OSINT_URL = "http://localhost:5173";
+const DEFAULT_OSINT_PORT = 5173;
 // Probe is one of two signals — the iframe's onLoad is the authoritative one.
 // We give the probe plenty of room (10s) so a slow dev VM doesn't false-fail.
 const PROBE_TIMEOUT_MS = 10_000;
@@ -31,16 +31,27 @@ function isSafeHttpUrl(url: string): boolean {
   }
 }
 
-const RAW_OSINT_URL =
-  (import.meta.env.VITE_DAY2_OSINT_URL as string | undefined) ?? DEFAULT_OSINT_URL;
-const DAY2_OSINT_URL = isSafeHttpUrl(RAW_OSINT_URL) ? RAW_OSINT_URL : DEFAULT_OSINT_URL;
-const OSINT_CONFIGURED = (() => {
-  try {
-    return new URL(DAY2_OSINT_URL).hostname !== "localhost";
-  } catch {
-    return false;
+/**
+ * Resolve the OSINT origin.
+ *
+ * If `VITE_DAY2_OSINT_URL` is set (and safe http/https), use it verbatim.
+ * Otherwise derive the origin from `window.location` so a SecOps user
+ * reaching us via `http://192.168.x.y:5174/` doesn't get an iframe pointed
+ * at `localhost:5173` — which would refer to *their own* machine and fail
+ * with ERR_CONNECTION_REFUSED whenever they're not on the same host as
+ * the dev servers.
+ */
+function resolveOsintUrl(): string {
+  const fromEnv = import.meta.env.VITE_DAY2_OSINT_URL as string | undefined;
+  if (fromEnv && isSafeHttpUrl(fromEnv)) return fromEnv;
+  if (typeof window !== "undefined" && window.location?.protocol && window.location?.hostname) {
+    return `${window.location.protocol}//${window.location.hostname}:${DEFAULT_OSINT_PORT}`;
   }
-})();
+  return `http://localhost:${DEFAULT_OSINT_PORT}`;
+}
+
+const DAY2_OSINT_URL = resolveOsintUrl();
+const OSINT_CONFIGURED = !!(import.meta.env.VITE_DAY2_OSINT_URL as string | undefined);
 
 type Reachability = "probing" | "ready" | "unreachable";
 
