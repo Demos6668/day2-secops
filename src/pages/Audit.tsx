@@ -25,9 +25,7 @@ export default function Audit() {
 
   const selectFramework = (fwId: string) => {
     setTab(fwId);
-    setLocation(
-      fwId === COMBINED_TAB ? "/audit/by-framework" : `/audit/by-framework/${fwId}`,
-    );
+    setLocation(fwId === COMBINED_TAB ? "/audit/by-framework" : `/audit/by-framework/${fwId}`);
   };
 
   const orderedTools = useMemo(
