@@ -89,12 +89,9 @@ export default function Policies() {
                 </div>
               </header>
               <p className="text-xs text-muted-foreground leading-relaxed">{p.summary}</p>
-              <div className="pt-1 border-t hairline-t flex items-center justify-between">
+              <div className="pt-1 border-t hairline-t">
                 <span className="text-[10px] font-mono text-muted-foreground">
                   Policy ID · {p.id}
-                </span>
-                <span className="text-[11px] text-muted-foreground italic">
-                  Full text — Phase-real
                 </span>
               </div>
             </CardContent>
