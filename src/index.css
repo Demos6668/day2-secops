@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/*
+ * Tailwind v4 ships `dark:` bound to `@media (prefers-color-scheme: dark)`.
+ * We use next-themes which toggles a `.dark` class on <html> instead, so
+ * redirect the variant to that class. This must come before any `@theme`
+ * or `@layer` blocks.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --font-sans: 'Outfit', sans-serif;
   --font-mono: 'Fira Code', monospace;
