@@ -11,8 +11,8 @@ import { adminApi, isUnauthorized } from "@/lib/admin-api";
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("changeme");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

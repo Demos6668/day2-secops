@@ -3,15 +3,17 @@ import { Search, Moon, Sun, Command, Printer, Box, Rows3, Rows4 } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { OemMark } from "@/components/Brand";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { useWireframeMode } from "@/hooks/useWireframeMode";
 import { useDensity } from "@/hooks/useDensity";
 
 interface HeaderProps {
   workspaceName: string;
+  workspaceFullName?: string;
 }
 
-export function Header({ workspaceName }: HeaderProps) {
+export function Header({ workspaceName, workspaceFullName }: HeaderProps) {
   const { theme, setTheme } = useTheme();
   const { enabled: wireframe, toggle: toggleWireframe } = useWireframeMode();
   const { density, toggle: toggleDensity } = useDensity();
@@ -29,7 +31,19 @@ export function Header({ workspaceName }: HeaderProps) {
             Day2 SecOps — security visibility platform
           </TooltipContent>
         </Tooltip>
-        <span className="text-sm font-semibold truncate">{workspaceName}</span>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="inline-flex items-center gap-2 cursor-default">
+              <OemMark oem={workspaceName} size={20} />
+              <span className="text-sm font-semibold truncate">{workspaceName}</span>
+            </span>
+          </TooltipTrigger>
+          {workspaceFullName && workspaceFullName !== workspaceName && (
+            <TooltipContent side="bottom" className="text-xs">
+              {workspaceFullName}
+            </TooltipContent>
+          )}
+        </Tooltip>
         <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground hidden sm:inline">
           workspace
         </span>

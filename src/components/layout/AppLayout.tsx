@@ -33,7 +33,10 @@ export function AppLayout({ children }: AppLayoutProps) {
             sidebarCollapsed ? "lg:ml-16" : "lg:ml-60"
           }`}
         >
-          <Header workspaceName={workspace.config.name} />
+          <Header
+            workspaceName={workspace.config.shortName}
+            workspaceFullName={workspace.config.name}
+          />
           <main id="main" className="flex-1 overflow-y-auto">
             <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1600px] mx-auto w-full">
               {children}
