@@ -197,7 +197,6 @@ export function ToolTile({ tool, onOpen, className }: ToolTileProps) {
           </Tooltip>
         )}
       </div>
-
     </div>
   );
 }
