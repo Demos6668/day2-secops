@@ -37,6 +37,9 @@ test("A: audit page has three export buttons and they are enabled", async ({ pag
 });
 
 test("A: Export XLSX downloads a file with correct name pattern", async ({ page }) => {
+  // Increase timeout for this test — xlsx is lazy-loaded and can take ~20s on first click.
+  test.setTimeout(120_000);
+
   await page.goto(`${BASE}/audit/by-framework`);
   await page.waitForLoadState("networkidle");
 
@@ -45,7 +48,7 @@ test("A: Export XLSX downloads a file with correct name pattern", async ({ page 
 
   const dl = await captureDownload(page, () => exportXlsxBtn.click());
 
-  // Wait for download to complete (up to 30s to account for lazy-loaded xlsx lib)
+  // Await download completion (the xlsx blob can take a few seconds to generate).
   const path = await dl.path();
   const filename = dl.suggestedFilename();
 
@@ -108,8 +111,10 @@ test("B: ControlDetail has Anchor tools section", async ({ page }) => {
   await page.goto(`${BASE}/controls/iso27001-2022/A.5.15`);
   await page.waitForLoadState("networkidle");
 
-  // Look for the "Anchor tools" label (rendered as monospace uppercase text)
-  const anchorLabel = page.getByText(/Anchor tools/i);
+  // The section header renders as "ANCHOR TOOLS" (monospace uppercase div).
+  // Use exact text to avoid strict mode error from the meta badge that also contains
+  // "anchor tools" as part of a longer string.
+  const anchorLabel = page.getByText("Anchor tools", { exact: true });
   await expect(anchorLabel).toBeVisible();
 });
 
