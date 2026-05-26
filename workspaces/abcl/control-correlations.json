@@ -1,0 +1,113 @@
+{
+  "correlations": [
+    {
+      "id": "corr-asset-inventory",
+      "topic": "Hardware + software asset inventory",
+      "description": "Maintain an authoritative inventory of all hardware and software assets in scope.",
+      "controls": [
+        "iso27001-2022/A.5.9",
+        "nist-csf-2.0/ID.AM-01",
+        "nist-csf-2.0/ID.AM-02",
+        "cis-v8.1/CIS-1",
+        "cis-v8.1/CIS-2",
+        "rbi-csf/RBI-1",
+        "sebi-cscrf/ID.AM"
+      ]
+    },
+    {
+      "id": "corr-identity-mfa",
+      "topic": "Identity authentication + MFA",
+      "description": "Require multi-factor authentication for all privileged identities and remote access.",
+      "controls": [
+        "iso27001-2022/A.5.15",
+        "nist-csf-2.0/PR.AA-01",
+        "cis-v8.1/CIS-6",
+        "rbi-csf/RBI-7",
+        "sebi-cscrf/PR.AC"
+      ]
+    },
+    {
+      "id": "corr-pam",
+      "topic": "Privileged access management",
+      "description": "Manage privileged accounts via vaulting, JIT checkout, and session recording.",
+      "controls": [
+        "iso27001-2022/A.5.15",
+        "nist-csf-2.0/PR.AA-05",
+        "cis-v8.1/CIS-5",
+        "rbi-csf/RBI-7",
+        "sebi-cscrf/PR.AC"
+      ]
+    },
+    {
+      "id": "corr-endpoint-protection",
+      "topic": "Endpoint protection (EDR / HIPS / anti-malware)",
+      "description": "Deploy endpoint agents that detect, prevent, and respond to malware and tampering.",
+      "controls": [
+        "iso27001-2022/A.8.1",
+        "iso27001-2022/A.8.7",
+        "cis-v8.1/CIS-10",
+        "rbi-csf/RBI-4",
+        "sebi-cscrf/PR.IP"
+      ]
+    },
+    {
+      "id": "corr-network-segmentation",
+      "topic": "Network segmentation",
+      "description": "Segregate sensitive networks from general access; enforce zone boundaries.",
+      "controls": [
+        "iso27001-2022/A.8.22",
+        "nist-csf-2.0/PR.IR-01",
+        "cis-v8.1/CIS-12",
+        "rbi-csf/RBI-3",
+        "sebi-cscrf/PR.IP"
+      ]
+    },
+    {
+      "id": "corr-application-security",
+      "topic": "Web application security (WAF / WAAP)",
+      "description": "Filter and block application-layer attacks (OWASP Top 10) on public-facing apps.",
+      "controls": [
+        "iso27001-2022/A.8.23",
+        "nist-csf-2.0/DE.CM-01",
+        "cis-v8.1/CIS-13",
+        "rbi-csf/RBI-5",
+        "sebi-cscrf/DE.CM"
+      ]
+    },
+    {
+      "id": "corr-data-at-rest",
+      "topic": "Data-at-rest encryption",
+      "description": "Encrypt data on persistent storage (disk encryption, key escrow, integrity).",
+      "controls": [
+        "iso27001-2022/A.8.24",
+        "nist-csf-2.0/PR.DS-01",
+        "cis-v8.1/CIS-3",
+        "rbi-csf/RBI-4",
+        "sebi-cscrf/PR.DS"
+      ]
+    },
+    {
+      "id": "corr-dlp",
+      "topic": "Data loss prevention (egress + transit)",
+      "description": "Detect and block sensitive-data exfiltration across endpoints, network, and partner transfers.",
+      "controls": [
+        "iso27001-2022/A.8.10",
+        "nist-csf-2.0/PR.DS-02",
+        "cis-v8.1/CIS-3",
+        "rbi-csf/RBI-9",
+        "sebi-cscrf/PR.DS"
+      ]
+    },
+    {
+      "id": "corr-monitoring",
+      "topic": "Continuous network + endpoint monitoring",
+      "description": "Collect, retain, and analyze telemetry from network + endpoint controls.",
+      "controls": [
+        "nist-csf-2.0/DE.CM-01",
+        "cis-v8.1/CIS-13",
+        "rbi-csf/RBI-10",
+        "sebi-cscrf/DE.CM"
+      ]
+    }
+  ]
+}
