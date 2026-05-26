@@ -12,7 +12,7 @@ import { z } from "zod";
  * `corr-mfa`); the `controls` array names framework-qualified control
  * ids ("iso27001-2022/A.5.9", "nist-csf-2.0/ID.AM-01").
  */
-export const ControlRefSchema = z.string().regex(/^[a-z0-9-]+\/.+$/i, {
+export const ControlRefSchema = z.string().regex(/^[a-z0-9._-]+\/.+$/i, {
   message: "expected <frameworkId>/<controlId>",
 });
 
