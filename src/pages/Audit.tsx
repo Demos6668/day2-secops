@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useRoute } from "wouter";
-import { Download, ShieldCheck, FileText } from "lucide-react";
+import { Download, ShieldCheck, FileText, Package } from "lucide-react";
+import { toast } from "sonner";
 import { PageHeader } from "@/components/Common/PageHeader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -8,12 +9,24 @@ import { Card, CardContent } from "@/components/ui/shared";
 import { CombinedCoverage, ControlMatrix } from "@/components/Audit";
 import { useWorkspace } from "@/lib/workspace";
 import { useFeeder } from "@/components/Feeder";
+import {
+  downloadPdf,
+  downloadXlsx,
+  downloadAuditPackZip,
+} from "@/lib/audit/exports";
+import { AuditChecklistsFileSchema } from "@/types/audit-checklists";
+import checklistsRaw from "../../workspaces/abcl/audit-checklists.json";
+
+const CHECKLISTS = AuditChecklistsFileSchema.safeParse(checklistsRaw).success
+  ? AuditChecklistsFileSchema.parse(checklistsRaw).checklists
+  : [];
 
 const COMBINED_TAB = "__combined__";
 
 export default function Audit() {
-  const { frameworks } = useWorkspace();
+  const { frameworks, config } = useWorkspace();
   const { tools } = useFeeder();
+  const [exporting, setExporting] = useState<"xlsx" | "pdf" | "zip" | null>(null);
   const [matched, params] = useRoute<{ framework?: string }>("/audit/by-framework/:framework");
   const [, setLocation] = useLocation();
   const initial = matched && params?.framework ? params.framework : COMBINED_TAB;
@@ -36,7 +49,25 @@ export default function Audit() {
     [tools],
   );
 
-  const exportNotice = () => alert("Export is not available in this build.");
+  const handleExport = async (kind: "xlsx" | "pdf" | "zip") => {
+    setExporting(kind);
+    try {
+      if (kind === "xlsx") {
+        await downloadXlsx(frameworks, orderedTools);
+        toast.success("Control matrix XLSX downloaded.");
+      } else if (kind === "pdf") {
+        await downloadPdf(frameworks, orderedTools, config.name);
+        toast.success("Audit report PDF downloaded.");
+      } else {
+        await downloadAuditPackZip(frameworks, orderedTools, config.name, CHECKLISTS);
+        toast.success("Audit pack ZIP downloaded.");
+      }
+    } catch (e) {
+      toast.error("Export failed", { description: (e as Error).message });
+    } finally {
+      setExporting(null);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -47,13 +78,31 @@ export default function Audit() {
         meta={`${frameworks.length} frameworks`}
         actions={
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={exportNotice}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleExport("pdf")}
+              disabled={exporting !== null}
+            >
               <Download className="h-3 w-3 mr-1.5" />
-              Export PDF
+              {exporting === "pdf" ? "Building…" : "Export PDF"}
             </Button>
-            <Button variant="outline" size="sm" onClick={exportNotice}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleExport("xlsx")}
+              disabled={exporting !== null}
+            >
               <FileText className="h-3 w-3 mr-1.5" />
-              Export XLSX
+              {exporting === "xlsx" ? "Building…" : "Export XLSX"}
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => handleExport("zip")}
+              disabled={exporting !== null}
+            >
+              <Package className="h-3 w-3 mr-1.5" />
+              {exporting === "zip" ? "Bundling…" : "Audit pack"}
             </Button>
           </div>
         }

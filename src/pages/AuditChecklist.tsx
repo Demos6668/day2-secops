@@ -1,9 +1,28 @@
 import { useMemo, useState } from "react";
-import { ListChecks, Plus, CheckCircle2, Circle, AlertCircle } from "lucide-react";
+import {
+  ListChecks,
+  Plus,
+  CheckCircle2,
+  Circle,
+  AlertCircle,
+  Download,
+  Search,
+  X,
+} from "lucide-react";
+import { toast } from "sonner";
 import { PageHeader } from "@/components/Common/PageHeader";
 import { Card, CardContent } from "@/components/ui/shared";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { downloadChecklistCsv, downloadChecklistsBundleJson } from "@/lib/audit/exports";
 import {
   AuditChecklistsFileSchema,
   type AuditChecklist as Checklist,
@@ -37,8 +56,40 @@ const STATUS_ICON_TONE: Record<ChecklistItem["status"], string> = {
   done: "text-[#15803D] dark:text-[#4ADE80]",
 };
 
+const STATUSES: ChecklistItem["status"][] = ["open", "in-progress", "done"];
+
+function itemMatchesQuery(it: ChecklistItem, q: string): boolean {
+  if (!q) return true;
+  const needle = q.toLowerCase();
+  return (
+    it.title.toLowerCase().includes(needle) ||
+    (it.description ?? "").toLowerCase().includes(needle) ||
+    (it.owner ?? "").toLowerCase().includes(needle) ||
+    (it.control ?? "").toLowerCase().includes(needle)
+  );
+}
+
 export default function AuditChecklist() {
-  const [lists] = useState<Checklist[]>(CHECKLISTS_DATA.checklists);
+  const allLists = CHECKLISTS_DATA.checklists;
+  const [query, setQuery] = useState("");
+  const [pickedStatuses, setPickedStatuses] = useState<ChecklistItem["status"][]>([]);
+
+  const lists = useMemo(() => {
+    return allLists
+      .map((l) => {
+        const filteredItems = l.items.filter((it) => {
+          if (pickedStatuses.length && !pickedStatuses.includes(it.status)) return false;
+          if (!itemMatchesQuery(it, query)) return false;
+          return true;
+        });
+        return { ...l, items: filteredItems };
+      })
+      .filter((l) => {
+        // Drop empty lists when filters trim them; keep all if no filter is active.
+        if (!query && pickedStatuses.length === 0) return true;
+        return l.items.length > 0;
+      });
+  }, [allLists, query, pickedStatuses]);
 
   const summary = useMemo(() => {
     let done = 0;
@@ -50,6 +101,36 @@ export default function AuditChecklist() {
     return { done, total };
   }, [lists]);
 
+  const toggleStatus = (s: ChecklistItem["status"]) =>
+    setPickedStatuses((prev) =>
+      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
+    );
+
+  const clearFilters = () => {
+    setQuery("");
+    setPickedStatuses([]);
+  };
+
+  const handleListCsv = (l: Checklist) => {
+    try {
+      downloadChecklistCsv(l);
+      toast.success(`CSV downloaded — ${l.name}`);
+    } catch (e) {
+      toast.error("CSV export failed", { description: (e as Error).message });
+    }
+  };
+
+  const handleBundleJson = () => {
+    try {
+      downloadChecklistsBundleJson(allLists);
+      toast.success("All checklists bundled to JSON");
+    } catch (e) {
+      toast.error("Bundle download failed", { description: (e as Error).message });
+    }
+  };
+
+  const filtersActive = query.length > 0 || pickedStatuses.length > 0;
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -59,89 +140,166 @@ export default function AuditChecklist() {
         breadcrumb={[{ label: "Audit" }, { label: "Custom checklist" }]}
         meta={`${lists.length} lists · ${summary.done}/${summary.total} items closed`}
         actions={
-          <Button size="sm" disabled>
-            <Plus className="h-3 w-3 mr-1.5" />
-            New checklist
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="outline" onClick={handleBundleJson}>
+              <Download className="h-3 w-3 mr-1.5" />
+              Bundle JSON
+            </Button>
+            <Button size="sm" disabled>
+              <Plus className="h-3 w-3 mr-1.5" />
+              New checklist
+            </Button>
+          </div>
         }
       />
 
-      <div className="space-y-4">
-        {lists.map((list) => {
-          const done = list.items.filter((i) => i.status === "done").length;
-          const total = list.items.length;
-          return (
-            <Card key={list.id} className="glass-panel">
-              <CardContent className="p-4 space-y-3">
-                <header className="space-y-1">
-                  <div className="flex items-center justify-between flex-wrap gap-2">
-                    <h2 className="text-sm font-semibold">{list.name}</h2>
-                    <div className="flex items-center gap-1.5">
-                      <Badge variant="outline" className="text-[10px] font-mono tabular-nums">
-                        {done} / {total} done
-                      </Badge>
-                      {list.due && (
-                        <Badge variant="outline" className="text-[10px] font-mono">
-                          due {list.due}
+      <Card className="glass-panel">
+        <CardContent className="p-3 flex items-center gap-2 flex-wrap">
+          <Search className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Filter by title, owner, or control…"
+            className="h-8 max-w-md text-xs"
+            aria-label="Filter checklist items"
+          />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="h-8 text-xs gap-1.5">
+                Status
+                {pickedStatuses.length > 0 && (
+                  <Badge variant="secondary" className="h-4 px-1 text-[10px]">
+                    {pickedStatuses.length}
+                  </Badge>
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-48">
+              <DropdownMenuLabel className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                Status
+              </DropdownMenuLabel>
+              {STATUSES.map((s) => (
+                <DropdownMenuCheckboxItem
+                  key={s}
+                  checked={pickedStatuses.includes(s)}
+                  onCheckedChange={() => toggleStatus(s)}
+                  onSelect={(e) => e.preventDefault()}
+                  className="text-xs capitalize"
+                >
+                  {s.replace("-", " ")}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {filtersActive && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 text-[10px]"
+              onClick={clearFilters}
+              aria-label="Clear filters"
+            >
+              <X className="h-3 w-3 mr-1" />
+              Clear
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+
+      {lists.length === 0 ? (
+        <Card className="glass-panel">
+          <CardContent className="p-6 text-center text-xs text-muted-foreground italic">
+            No checklist items match the current filter.
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="space-y-4">
+          {lists.map((list) => {
+            const done = list.items.filter((i) => i.status === "done").length;
+            const total = list.items.length;
+            return (
+              <Card key={list.id} className="glass-panel">
+                <CardContent className="p-4 space-y-3">
+                  <header className="space-y-1">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <h2 className="text-sm font-semibold">{list.name}</h2>
+                      <div className="flex items-center gap-1.5">
+                        <Badge variant="outline" className="text-[10px] font-mono tabular-nums">
+                          {done} / {total} done
                         </Badge>
-                      )}
-                    </div>
-                  </div>
-                  {list.description && (
-                    <p className="text-[11px] text-muted-foreground leading-relaxed">
-                      {list.description}
-                    </p>
-                  )}
-                  {list.owner && (
-                    <div className="text-[10px] font-mono text-muted-foreground">
-                      owner · {list.owner}
-                    </div>
-                  )}
-                </header>
-                <ul className="divide-y divide-white/5">
-                  {list.items.map((it) => {
-                    const Icon = STATUS_ICON[it.status];
-                    return (
-                      <li key={it.id} className="py-2 flex items-start gap-3 text-xs">
-                        <Icon
-                          className={`h-4 w-4 shrink-0 mt-0.5 ${STATUS_ICON_TONE[it.status]}`}
-                          role="img"
-                          aria-label={STATUS_LABEL[it.status]}
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium">{it.title}</div>
-                          {it.description && (
-                            <div className="text-[11px] text-muted-foreground mt-0.5">
-                              {it.description}
-                            </div>
-                          )}
-                          <div className="text-[10px] font-mono text-muted-foreground mt-0.5 flex items-center gap-2 flex-wrap">
-                            {it.owner && <span>owner · {it.owner}</span>}
-                            {it.due && <span>due · {it.due}</span>}
-                            {it.control && (
-                              <Badge variant="outline" className="text-[9px] font-mono">
-                                {it.control}
-                              </Badge>
-                            )}
-                          </div>
-                        </div>
-                        <span
-                          className={
-                            "inline-flex items-center rounded-full border px-2 py-px text-[10px] font-mono uppercase tracking-widest " +
-                            STATUS_TONE[it.status]
-                          }
+                        {list.due && (
+                          <Badge variant="outline" className="text-[10px] font-mono">
+                            due {list.due}
+                          </Badge>
+                        )}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 px-2 text-[10px]"
+                          onClick={() => handleListCsv(list)}
+                          aria-label={`Download ${list.name} as CSV`}
                         >
-                          {it.status}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+                          <Download className="h-3 w-3 mr-1" />
+                          CSV
+                        </Button>
+                      </div>
+                    </div>
+                    {list.description && (
+                      <p className="text-[11px] text-muted-foreground leading-relaxed">
+                        {list.description}
+                      </p>
+                    )}
+                    {list.owner && (
+                      <div className="text-[10px] font-mono text-muted-foreground">
+                        owner · {list.owner}
+                      </div>
+                    )}
+                  </header>
+                  <ul className="divide-y divide-white/5">
+                    {list.items.map((it) => {
+                      const Icon = STATUS_ICON[it.status];
+                      return (
+                        <li key={it.id} className="py-2 flex items-start gap-3 text-xs">
+                          <Icon
+                            className={`h-4 w-4 shrink-0 mt-0.5 ${STATUS_ICON_TONE[it.status]}`}
+                            role="img"
+                            aria-label={STATUS_LABEL[it.status]}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium">{it.title}</div>
+                            {it.description && (
+                              <div className="text-[11px] text-muted-foreground mt-0.5">
+                                {it.description}
+                              </div>
+                            )}
+                            <div className="text-[10px] font-mono text-muted-foreground mt-0.5 flex items-center gap-2 flex-wrap">
+                              {it.owner && <span>owner · {it.owner}</span>}
+                              {it.due && <span>due · {it.due}</span>}
+                              {it.control && (
+                                <Badge variant="outline" className="text-[9px] font-mono">
+                                  {it.control}
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                          <span
+                            className={
+                              "inline-flex items-center rounded-full border px-2 py-px text-[10px] font-mono uppercase tracking-widest " +
+                              STATUS_TONE[it.status]
+                            }
+                          >
+                            {it.status}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
