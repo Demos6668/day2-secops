@@ -309,7 +309,8 @@ test("E: clicking a Related controls sibling link navigates to sibling page", as
   // The page should NOT show "Control not found"
   await expect(page.getByText(/Control not found/i)).not.toBeVisible();
 
-  // And the Related controls section (or Anchor tools) should still be visible
-  const anchorLabel = page.getByText(/Anchor tools/i);
+  // And the Anchor tools section header should be visible on the sibling page.
+  // Use exact match to avoid strict mode error from the meta badge.
+  const anchorLabel = page.getByText("Anchor tools", { exact: true });
   await expect(anchorLabel).toBeVisible();
 });
