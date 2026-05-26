@@ -15,10 +15,7 @@ import type { Framework, FrameworkControl, Tool, VisibilityCauseFlag } from "@/t
 import { CAUSES } from "@/lib/visibility/causes";
 import { reasonsForOem } from "@/lib/feeder/seed";
 import type { OemLossReason } from "@/types/oem-reasons";
-import type {
-  ControlCorrelation,
-  ControlCorrelationsFile,
-} from "@/types/control-correlations";
+import type { ControlCorrelation } from "@/types/control-correlations";
 import { ControlCorrelationsFileSchema } from "@/types/control-correlations";
 import correlationsRaw from "../../../workspaces/abcl/control-correlations.json";
 import changesRaw from "../../../workspaces/abcl/config-changes.json";
