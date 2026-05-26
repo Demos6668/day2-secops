@@ -228,9 +228,7 @@ test("C: AuditChecklist CSV button on a list downloads a .csv file", async ({ pa
   expect(filename).toMatch(/\.csv$/);
 });
 
-test("C: AuditChecklist Bundle JSON downloads a .json file with correct name", async ({
-  page,
-}) => {
+test("C: AuditChecklist Bundle JSON downloads a .json file with correct name", async ({ page }) => {
   await page.goto(`${BASE}/audit/checklist`);
   await page.waitForLoadState("networkidle");
 
@@ -280,9 +278,7 @@ test("D: AuditDocs Download button downloads a .txt file", async ({ page }) => {
 // =========================================================================
 // CHECK E — Related controls navigation from ControlDetail
 // =========================================================================
-test("E: clicking a Related controls sibling link navigates to sibling page", async ({
-  page,
-}) => {
+test("E: clicking a Related controls sibling link navigates to sibling page", async ({ page }) => {
   await page.goto(`${BASE}/controls/iso27001-2022/A.5.15`);
   await page.waitForLoadState("networkidle");
 

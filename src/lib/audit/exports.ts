@@ -193,7 +193,9 @@ export async function downloadPdf(
 // -- Checklist exports --------------------------------------------------
 
 export function downloadChecklistCsv(list: AuditChecklist): void {
-  const rows: string[][] = [["item_id", "title", "description", "status", "owner", "due", "control"]];
+  const rows: string[][] = [
+    ["item_id", "title", "description", "status", "owner", "due", "control"],
+  ];
   for (const it of list.items) {
     rows.push([
       it.id,
@@ -303,11 +305,7 @@ export async function downloadAuditPackZip(
     for (const f of frameworks) {
       const slice = rows.filter((r) => r.Framework === f.shortName);
       if (slice.length === 0) continue;
-      XLSX.utils.book_append_sheet(
-        wb,
-        XLSX.utils.json_to_sheet(slice),
-        f.shortName.slice(0, 31),
-      );
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(slice), f.shortName.slice(0, 31));
     }
     const out = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     zip.file(`control-matrix-${stamp}.xlsx`, out as ArrayBuffer);
@@ -361,7 +359,11 @@ export async function downloadAuditPackZip(
       {
         generatedAt: new Date().toISOString(),
         workspace: workspaceName,
-        frameworks: frameworks.map((f) => ({ id: f.id, name: f.name, controls: f.controls.length })),
+        frameworks: frameworks.map((f) => ({
+          id: f.id,
+          name: f.name,
+          controls: f.controls.length,
+        })),
         toolCount: tools.length,
         checklistCount: checklists.length,
         contents: [

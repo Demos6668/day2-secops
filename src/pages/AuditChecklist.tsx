@@ -102,9 +102,7 @@ export default function AuditChecklist() {
   }, [lists]);
 
   const toggleStatus = (s: ChecklistItem["status"]) =>
-    setPickedStatuses((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
-    );
+    setPickedStatuses((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
 
   const clearFilters = () => {
     setQuery("");

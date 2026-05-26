@@ -1,12 +1,5 @@
 import { useMemo, useState } from "react";
-import {
-  FileText,
-  Download,
-  Upload,
-  Folder,
-  Search,
-  X,
-} from "lucide-react";
+import { FileText, Download, Upload, Folder, Search, X } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/Common/PageHeader";
 import { Card, CardContent } from "@/components/ui/shared";
@@ -121,9 +114,7 @@ export default function AuditDocs() {
   const filtersActive = query.length > 0 || pickedFrameworks.length > 0;
 
   const toggleFramework = (f: string) =>
-    setPickedFrameworks((prev) =>
-      prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f],
-    );
+    setPickedFrameworks((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]));
 
   const clearFilters = () => {
     setQuery("");
@@ -243,7 +234,10 @@ export default function AuditDocs() {
               </thead>
               <tbody>
                 {filtered.map((d) => (
-                  <tr key={d.id} className="border-b hairline-b last:border-0 hover:bg-white/[0.02]">
+                  <tr
+                    key={d.id}
+                    className="border-b hairline-b last:border-0 hover:bg-white/[0.02]"
+                  >
                     <td className="px-3 py-2">
                       <div className="flex items-center gap-2">
                         <Folder className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />

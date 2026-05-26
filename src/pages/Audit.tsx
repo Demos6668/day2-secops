@@ -18,11 +18,7 @@ import { Card, CardContent } from "@/components/ui/shared";
 import { CombinedCoverage, ControlMatrix } from "@/components/Audit";
 import { useWorkspace } from "@/lib/workspace";
 import { useFeeder } from "@/components/Feeder";
-import {
-  downloadPdf,
-  downloadXlsx,
-  downloadAuditPackZip,
-} from "@/lib/audit/exports";
+import { downloadPdf, downloadXlsx, downloadAuditPackZip } from "@/lib/audit/exports";
 import { controlCoverageDrift, type ControlDrift } from "@/lib/audit/drift";
 import { listSnapshots, getSnapshot } from "@/lib/change/snapshots";
 import { AuditChecklistsFileSchema } from "@/types/audit-checklists";
@@ -118,11 +114,7 @@ export default function Audit() {
               <FileText className="h-3 w-3 mr-1.5" />
               {exporting === "xlsx" ? "Building…" : "Export XLSX"}
             </Button>
-            <Button
-              size="sm"
-              onClick={() => handleExport("zip")}
-              disabled={exporting !== null}
-            >
+            <Button size="sm" onClick={() => handleExport("zip")} disabled={exporting !== null}>
               <Package className="h-3 w-3 mr-1.5" />
               {exporting === "zip" ? "Bundling…" : "Audit pack"}
             </Button>
@@ -166,8 +158,7 @@ export default function Audit() {
                 </header>
                 <ul className="divide-y divide-white/5">
                   {drift.map((d) => {
-                    const Icon =
-                      d.delta < 0 ? TrendingDown : d.delta > 0 ? TrendingUp : Activity;
+                    const Icon = d.delta < 0 ? TrendingDown : d.delta > 0 ? TrendingUp : Activity;
                     const tone =
                       d.delta < 0
                         ? "text-[#B91C1C] dark:text-[#F87171]"

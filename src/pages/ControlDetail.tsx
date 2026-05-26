@@ -215,7 +215,10 @@ export default function ControlDetail() {
         <Card className="glass-panel">
           <CardContent className="p-4 space-y-2">
             <div className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground flex items-center gap-1.5">
-              <ShieldAlert className="h-3 w-3 text-[#B91C1C] dark:text-[#F87171]" aria-hidden="true" />
+              <ShieldAlert
+                className="h-3 w-3 text-[#B91C1C] dark:text-[#F87171]"
+                aria-hidden="true"
+              />
               Active causes degrading this control
             </div>
             <ul className="space-y-1.5">
@@ -264,10 +267,7 @@ export default function ControlDetail() {
                 const tool = impact.anchoredTools.find((t) => toolIds.includes(t.id));
                 return (
                   <li key={`${reason.code}-${toolIds.join(",")}`} className="space-y-1">
-                    <LossReasonChips
-                      oem={tool?.oem ?? ""}
-                      codes={[reason.code]}
-                    />
+                    <LossReasonChips oem={tool?.oem ?? ""} codes={[reason.code]} />
                     <div className="text-[10px] font-mono text-muted-foreground pl-1">
                       on {toolIds.join(", ")}
                     </div>
